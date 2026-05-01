@@ -3,74 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SummerWaveSounds | Feel-Good Music</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <title>SummerWaveSounds | Best Feel-Good Music</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header>
-        <div class="container nav-flex">
-            <h1 id="logo">SummerWave<span>Sounds</span></h1>
-            <nav>
-                <a href="#videos">The Music</a>
-                <a href="#mission">Our Impact</a>
-                <a href="https://youtube.com/@summerwavesounds" target="_blank" class="nav-btn">YouTube</a>
-            </nav>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="brand">
+                <span class="gold-text">SWS</span> | SummerWaveSounds
+            </div>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#mission">Our Mission</a>
+                <a href="#listen">Listen</a>
+                <a href="https://youtube.com/@summerwavesounds" target="_blank">Support</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero-premium">
+        <!-- Professional background image referenced below -->
+        <img src="sunset1.jpeg" alt="City Sunset View" class="hero-bg">
+        <div class="hero-overlay">
+            <div class="hero-content">
+                <h1>Feel-Good Music</h1>
+                <p>Bespoke soundtracks that evolve with the city lights.</p>
+            </div>
         </div>
     </header>
 
-    <section class="hero">
-        <div class="container hero-flex">
-            <div class="hero-content">
-                <h2>Stream the <span class="sunshine">Sunshine</span></h2>
-                <p>Welcome to your digital sanctuary for "feel-good" EDM. From airy plucks to signature trumpet melodies, we provide the soundtrack for your best memories.</p>
-                <a href="#videos" class="main-btn">Listen to the Latest</a>
-            </div>
-            <div class="hero-image">
-                <img src="Summerwave.jpg" alt="SummerWaveSounds" id="profile-img">
-                <div class="sun-glow"></div>
-            </div>
+    <section id="mission" class="info-grid container">
+        <div class="info-card">
+            <div class="icon">♫</div>
+            <h3>Our Mission</h3>
+            <p>100% of revenue supporting global communities, making a difference in youth sports and food banks worldwide.</p>
+        </div>
+        <div class="info-card">
+            <div class="icon">♡</div>
+            <h3>About</h3>
+            <p>A signature sound that integrates the energy of the city with a soulful, feel-good vibe designed for modern life.</p>
         </div>
     </section>
 
-    <!-- Video Showcase Section -->
-    <section id="videos" class="video-gallery">
-        <div class="container">
-            <h3>Featured Mixes</h3>
-            <div class="video-grid">
-                <!-- Video 1 -->
-                <div class="video-card">
-                    <iframe src="https://www.youtube.com/embed/GnmG5FX2M2E" frameborder="0" allowfullscreen></iframe>
-                    <h4>POV: You Found the Summer Album</h4>
-                </div>
-                <!-- Video 2 -->
-                <div class="video-card">
-                    <iframe src="https://www.youtube.com/embed/4m_OelXo9hQ" frameborder="0" allowfullscreen></iframe>
-                    <h4>Feel Good Workout Mix</h4>
-                </div>
-                <!-- Video 3 -->
-                <div class="video-card">
-                    <iframe src="https://www.youtube.com/embed/MO1j68hXVWc" frameborder="0" allowfullscreen></iframe>
-                    <h4>Driving into the Sunset</h4>
-                </div>
+    <section id="listen" class="media-section container">
+        <div class="media-flex">
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/GnmG5FX2M2E" frameborder="0" allowfullscreen></iframe>
             </div>
-        </div>
-    </section>
-
-    <section id="mission" class="impact">
-        <div class="container">
-            <div class="impact-card">
-                <h3>Music with a Purpose</h3>
-                <p>We believe positive energy should be shared. All revenue from the SummerWaveSounds channel is invested into youth sports programs and food banks in developing countries.</p>
+            <div class="media-text">
+                <div class="media-item">
+                    <span class="small-icon">🎧</span>
+                    <h4>Start Streaming</h4>
+                    <p>Experience the latest soundtracks on YouTube.</p>
+                </div>
+                <div class="media-item">
+                    <span class="small-icon">🏈</span>
+                    <h4>Donate</h4>
+                    <p>Support youth sports and global food security through your views.</p>
+                </div>
             </div>
         </div>
     </section>
 
     <footer>
-        <p>&copy; <span id="year"></span> SummerWaveSounds. All the vibes, all for good.</p>
+        <div class="nav-links footer-links">
+            <a href="#about">About</a>
+            <a href="#mission">Our Mission</a>
+            <a href="#listen">Listen</a>
+            <a href="#">Support</a>
+        </div>
+        <p>© 2026 SummerWaveSounds</p>
     </footer>
 
-    <script src="script.js"></script>
 </body>
 </html>
