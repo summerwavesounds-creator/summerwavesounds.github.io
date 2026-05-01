@@ -1,104 +1,159 @@
-/* --- SummerWaveSounds: Color Overhaul --- */
 :root {
-    --sunset-orange: #FF7E5F;
-    --golden-hour: #FEB47B;
-    --ocean-cyan: #00B4DB;
-    --sand-bright: #FFFCF2;
-    --deep-charcoal: #252525;
+    --gold: #B59A6D;
+    --ivory: #FAF9F6;
+    --charcoal: #333333;
+    --white: #FFFFFF;
+    --serif: 'Playfair Display', serif;
+    --sans: 'Inter', sans-serif;
 }
 
 body {
     margin: 0;
-    padding: 0;
-    /* This ensures the background is never just white */
-    background: linear-gradient(180deg, var(--sand-bright) 0%, #ffffff 100%);
-    font-family: 'Open Sans', sans-serif;
-    color: var(--deep-charcoal);
+    font-family: var(--sans);
+    background-color: var(--white);
+    color: var(--charcoal);
+    line-height: 1.6;
 }
 
-/* --- The Header: Vibrant Teal/Cyan --- */
-header {
-    background-color: var(--ocean-cyan);
-    padding: 15px 0;
-    border-bottom: 4px solid var(--sunset-orange);
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px;
 }
 
-#logo {
-    color: white;
-    font-family: 'Montserrat', sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+/* --- Navigation --- */
+.navbar {
+    padding: 20px 0;
+    background: var(--white);
+    border-bottom: 1px solid #eee;
 }
 
-#logo span {
-    color: var(--golden-hour);
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-nav a {
-    color: white;
+.brand {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+}
+
+.gold-text { color: var(--gold); font-weight: bold; }
+
+.nav-links a {
     text-decoration: none;
-    margin-left: 20px;
-    font-weight: bold;
+    color: var(--charcoal);
+    margin-left: 25px;
+    font-size: 0.9rem;
+    font-weight: 400;
 }
 
-/* --- The Hero: Sunset Gradient --- */
-.hero {
-    background: linear-gradient(45deg, var(--sunset-orange), var(--golden-hour));
-    padding: 100px 0;
-    color: white;
-    text-align: center;
+/* --- Hero Section --- */
+.hero-premium {
+    position: relative;
+    height: 600px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.hero h2 {
-    font-size: 4rem;
-    margin-bottom: 10px;
-    text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
-}
-
-/* --- Profile Image Glow --- */
-#profile-img {
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
-    border: 10px solid white;
-    box-shadow: 0px 0px 30px rgba(254, 180, 123, 0.8); /* Golden Glow */
+.hero-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    z-index: 1;
 }
 
-/* --- Video Section: Ocean Vibes --- */
-.video-gallery {
-    background-color: #f0f9ff; /* Very light blue */
-    padding: 60px 0;
+.hero-overlay {
+    position: relative;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.2); /* Soft darkening for text readability */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.video-gallery h3 {
-    color: var(--sunset-orange);
-    font-size: 2.5rem;
+.hero-content {
     text-align: center;
+    color: var(--white);
 }
 
-.video-card {
-    background: white;
-    padding: 15px;
-    border-radius: 20px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    border-bottom: 5px solid var(--ocean-cyan);
+.hero-content h1 {
+    font-family: var(--serif);
+    font-size: 4.5rem;
+    margin: 0;
+    font-weight: 400;
 }
 
-/* --- Buttons --- */
-.main-btn {
-    background-color: var(--ocean-cyan);
-    color: white;
-    padding: 15px 40px;
-    border-radius: 50px;
-    text-transform: uppercase;
-    font-weight: 900;
-    text-decoration: none;
-    display: inline-block;
-    transition: transform 0.3s ease;
+.hero-content p {
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    font-weight: 300;
 }
 
-.main-btn:hover {
-    transform: scale(1.1);
-    background-color: var(--sunset-orange);
+/* --- Info Grid --- */
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    padding: 100px 40px;
 }
+
+.info-card h3 {
+    font-family: var(--serif);
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
+.icon {
+    font-size: 2rem;
+    color: var(--gold);
+    margin-bottom: 10px;
+}
+
+/* --- Media Section --- */
+.media-section {
+    padding-bottom: 100px;
+}
+
+.media-flex {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 40px;
+    align-items: center;
+}
+
+.video-container iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 4px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.media-item {
+    margin-bottom: 30px;
+}
+
+.media-item h4 {
+    font-family: var(--serif);
+    margin: 5px 0;
+    font-size: 1.2rem;
+}
+
+/* --- Footer --- */
+footer {
+    background: #222;
+    color: #999;
+    text-align: center;
+    padding: 60px 0;
+    font-size: 0.8rem;
+}
+
+.footer-links { margin-bottom: 20px; }
+.footer-links a { color: #eee; }
