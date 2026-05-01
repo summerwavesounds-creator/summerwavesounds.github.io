@@ -1,20 +1,22 @@
-// SMOOTH SCROLL
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function(e) {
-    e.preventDefault();
-    document.querySelector(this.getAttribute('href'))
-      .scrollIntoView({ behavior: 'smooth' });
-  });
-});
+// SummerWaveSounds Website Script
+// Positive Energy Only.
 
-// PARTICLES (SOFT FLOATING “WATER” FEEL)
-particlesJS("particles-js", {
-  particles: {
-    number: { value: 60 },
-    color: { value: ["#6ef3ff", "#ff8bdc"] },
-    shape: { type: "circle" },
-    opacity: { value: 0.4 },
-    size: { value: 4 },
-    move: { enable: true, speed: 1 }
-  }
+document.addEventListener('DOMContentLoaded', () => {
+
+    // 1. Dynamic Footer Year
+    // Updates automatically, keeping the high-fidelity illusion intact.
+    const yearSpan = document.getElementById('current-year');
+    const currentYear = new Date().getFullYear();
+    if (yearSpan) {
+        yearSpan.textContent = currentYear;
+    }
+
+    // 2. Initial Page Smooth Fade-In
+    // Once DOM content is loaded, we trigger the CSS 'loaded' class
+    // defined in style.css, creating a nice smooth entry.
+    document.body.classList.add('loaded');
+
+    // (Optional Future Addition: Add smooth scroll behavior override if 
+    // css smooth scroll doesn't work well on a specific browser)
+
 });
