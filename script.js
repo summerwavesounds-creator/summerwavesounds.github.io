@@ -7,14 +7,14 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-// PARTICLES CONFIG
+// PARTICLES (SOFT FLOATING “WATER” FEEL)
 particlesJS("particles-js", {
   particles: {
-    number: { value: 80 },
-    color: { value: "#00f7ff" },
+    number: { value: 60 },
+    color: { value: ["#6ef3ff", "#ff8bdc"] },
     shape: { type: "circle" },
-    opacity: { value: 0.5 },
-    size: { value: 3 },
-    move: { enable: true, speed: 2 }
+    opacity: { value: 0.4 },
+    size: { value: 4 },
+    move: { enable: true, speed: 1 }
   }
 });
