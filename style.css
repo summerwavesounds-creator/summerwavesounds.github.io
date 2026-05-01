@@ -1,143 +1,291 @@
+/* --- Global Styles --- */
+:root {
+    /* Color Palette: Positivity & Sunshine */
+    --accent-orange: #FFAC42; /* Main sunshine color */
+    --accent-yellow: #FFD25E; /* Brighter glow */
+    --text-white: #FFFFFF;
+    --text-grey: #DDDDDD;
+    --text-dark: #111111;
+    --bg-dark: #121212; /* Deep background (high-fidelity) */
+    --font-heading: 'Poppins', sans-serif;
+    --font-body: 'Work Sans', sans-serif;
+    --transition-fast: all 0.3s ease-in-out;
+}
+
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Outfit', sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-  background: #04070d;
-  color: white;
-  overflow-x: hidden;
+    background-color: var(--bg-dark);
+    color: var(--text-grey);
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1.6;
+    scroll-behavior: smooth;
+    opacity: 0; /* JS will fade this in for a smooth intro */
 }
 
-/* PARTICLES */
-#particles-js {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
+/* Base fade-in for page load */
+body.loaded {
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
 }
 
-/* GLASS */
-.glass {
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(15px);
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
-/* NAV */
-nav {
-  display: flex;
-  justify-content: space-between;
-  padding: 1rem 2rem;
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transition-fast);
+}
+
+h1, h2, h3, h4 {
+    font-family: var(--font-heading);
+    color: var(--text-white);
+    font-weight: 800;
+}
+
+h2 { font-size: 3rem; line-height: 1.1; }
+h3 { font-size: 2.2rem; margin-bottom: 20px; }
+
+p { margin-bottom: 1.5rem; color: var(--text-grey); }
+strong { color: var(--text-white); font-weight: 500; }
+
+.highlight {
+    color: var(--accent-orange);
+    text-transform: uppercase;
+    font-weight: 800;
+}
+
+/* --- Buttons and Calls to Action --- */
+.cta-button {
+    display: inline-block;
+    padding: 15px 35px;
+    background-color: var(--accent-orange);
+    color: var(--text-dark);
+    font-family: var(--font-heading);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border-radius: 50px;
+    margin-top: 20px;
+    box-shadow: 0 4px 15px rgba(255, 172, 66, 0.3);
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(255, 172, 66, 0.6);
+    background-color: var(--accent-yellow);
+}
+
+/* --- Header & Nav --- */
+header {
+    padding: 30px 0;
+    position: sticky;
+    top: 0;
+    background-color: rgba(18, 18, 18, 0.95);
+    z-index: 100;
+    border-bottom: 1px solid #222;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+#tagline {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--text-grey);
+    font-weight: 300;
+    text-transform: uppercase;
+    margin-left: 5px;
 }
 
 nav a {
-  color: #6ef3ff;
-  margin-left: 20px;
-  text-decoration: none;
+    margin-left: 30px;
+    font-size: 1rem;
+    font-family: var(--font-heading);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-.logo {
-  background: linear-gradient(90deg, #6ef3ff, #ff8bdc);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+nav a:hover:not(.cta-nav) {
+    color: var(--accent-yellow);
 }
 
-/* HERO */
+.cta-nav {
+    border: 1px solid var(--accent-orange);
+    padding: 8px 15px;
+    border-radius: 5px;
+    color: var(--accent-orange);
+}
+
+.cta-nav:hover {
+    background-color: var(--accent-orange);
+    color: var(--text-dark);
+}
+
+/* --- Hero Section & The Smiling Host Image --- */
 .hero {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: radial-gradient(circle at center, rgba(110,243,255,0.15), transparent);
-  text-align: center;
+    padding: 100px 0;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
 }
 
-.hero h2 {
-  font-size: 3rem;
-  background: linear-gradient(90deg, #6ef3ff, #ff8bdc);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
 }
 
-.hero p {
-  margin-top: 10px;
-  opacity: 0.8;
+.hero-text h2 { margin-bottom: 25px; }
+
+/* The core container for image effects */
+.hero-image-wrap {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* SECTIONS */
-.section {
-  padding: 80px 20px;
-  text-align: center;
+/* Style the host image precisely */
+#host-photo {
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    border: 4px solid var(--accent-orange);
+    box-shadow: 0 10px 40px rgba(255, 210, 94, 0.15); /* Soft, initial glow */
+    transition: var(--transition-fast);
+    filter: grayscale(20%) brightness(95%);
 }
 
-/* ALBUM GRID */
-.album-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 25px;
-  margin-top: 40px;
+#host-photo:hover {
+    transform: scale(1.05);
+    filter: grayscale(0%) brightness(100%);
+    box-shadow: 0 15px 50px rgba(255, 210, 94, 0.3);
 }
 
-.album {
-  position: relative;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 0 25px rgba(110,243,255,0.15);
+/* The subtle 'Sunshine Aura' behind the image */
+.glow-effect {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120%;
+    height: 120%;
+    background: radial-gradient(circle, rgba(255, 210, 94, 0.1) 0%, rgba(18, 18, 18, 0) 70%);
+    border-radius: 50%;
+    z-index: -1; /* Place it behind the photo */
 }
 
-.album img {
-  width: 100%;
-  transition: 0.4s;
+/* --- Section Formatting --- */
+.about, .mission, .listen {
+    padding: 80px 0;
+    border-bottom: 1px solid #1a1a1a;
 }
 
-/* HOVER EFFECT */
-.overlay {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(4,7,13,0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  transition: 0.3s;
+.about h3 { text-align: center; color: var(--accent-yellow); font-style: italic; }
+.about p { max-width: 800px; margin: 0 auto; text-align: center; }
+
+.mission { background-color: #161616; }
+
+.mission-grid {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 30px;
+    align-items: center;
 }
 
-.album:hover .overlay {
-  opacity: 1;
+.mission-icon {
+    font-size: 4rem;
+    color: var(--accent-orange);
+    line-height: 1;
 }
 
-.album:hover img {
-  transform: scale(1.1);
+.mission-list {
+    list-style: none;
+    margin: 20px 0;
 }
 
-/* PLAY BUTTON */
-.play-btn {
-  font-size: 2rem;
-  color: #6ef3ff;
-  border: 2px solid #6ef3ff;
-  padding: 12px 20px;
-  border-radius: 50%;
-  text-decoration: none;
-  transition: 0.3s;
+.mission-list li {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
 }
 
-.play-btn:hover {
-  background: linear-gradient(90deg, #6ef3ff, #ff8bdc);
-  color: black;
+.mission-list li .dot {
+    color: var(--accent-orange);
+    margin-right: 10px;
+    font-size: 0.8rem;
 }
 
-/* SOCIALS */
-.socials a {
-  margin: 10px;
-  text-decoration: none;
-  color: #6ef3ff;
+.listen {
+    text-align: center;
+    border-bottom: none;
+    background: linear-gradient(180deg, rgba(18, 18, 18, 0) 0%, rgba(22, 22, 22, 1) 100%);
 }
 
+.listen-cta { font-size: 1.2rem; padding: 20px 45px; }
+.external-icon { margin-left: 8px; font-weight: 300; }
+
+/* --- Footer --- */
 footer {
-  padding: 20px;
+    padding: 40px 0;
+    border-top: 1px solid #222;
+    background-color: #111;
+    font-size: 0.9rem;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.social-links a {
+    margin-left: 20px;
+}
+
+.social-links a:hover {
+    color: var(--accent-orange);
+}
+
+
+/* --- Mobile Responsiveness (Cool code works on phones too) --- */
+@media (max-width: 900px) {
+    h2 { font-size: 2.5rem; }
+    .hero-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 40px;
+    }
+    .hero-image-wrap { order: -1; } /* Image on top on mobile */
+    #host-photo { width: 250px; height: 250px; }
+}
+
+@media (max-width: 768px) {
+    nav { display: none; } /* Simplified mobile view */
+    .mission-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .mission-icon { font-size: 3rem; }
 }
