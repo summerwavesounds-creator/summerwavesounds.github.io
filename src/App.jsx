@@ -22,7 +22,6 @@ const VIDEOS = [
 
 const GENRES = ["All", "EDM / Feel Good", "Deep House", "Summer Anthem", "Chill EDM", "Night Vibes", "Alternative Rock", "Pop"];
 
-// Updated Stats perfectly matching your request
 const STATS = [
   { val: "700+", label: "Subscribers" },
   { val: "80K+", label: "Total Views" },
@@ -30,28 +29,27 @@ const STATS = [
   { val: "100%", label: "To Good Causes" }
 ];
 
-// --- YouTube Playlist Section Test ---
-<section id="listen" style={{ padding: "80px 24px", background: "linear-gradient(180deg, #0a0a0a, #100800 50%, #0a0a0a)" }}>
-  <div style={{ maxWidth: 800, margin: "0 auto" }}>
-    <h2 style={{ fontFamily: "'Bebas Neue'", fontSize: 48, color: "#fff", textAlign: "center", marginBottom: 40 }}>
-      Summer Wave Playlist
-    </h2>
-    
-    <div style={{ borderRadius: 24, overflow: "hidden", border: "1px solid rgba(251,146,60,0.2)", background: "#111" }}>
-      <div style={{ position: "relative", paddingBottom: "56.25%" }}>
-        <iframe
-          // Replace 'YOUR_PLAYLIST_ID' with the actual ID from your URL
-          // The ID is the string after 'list=' in your link
-          src="https://www.youtube.com/embed?listType=playlist&list=PL9LAITeGWgi4gh00BrS_KNOuZb1bOghIG&rel=0&modestbranding=1"
-          title="Summer Wave Feel-Good Music Playlist"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: "none" }}
-        />
+// --- Playlist Embed Component ---
+function PlaylistEmbed({ listId, title }) {
+  return (
+    <section className="py-24 max-w-7xl mx-auto px-6 relative z-10">
+      <h3 style={{ fontFamily: "'Bebas Neue'", fontSize: 32, color: "#fff", marginBottom: 32, textAlign: 'center' }}>
+        {title}
+      </h3>
+      <div style={{ borderRadius: 24, overflow: "hidden", border: "1px solid rgba(251,146,60,0.2)", background: "#111", maxWidth: 900, margin: '0 auto' }}>
+        <div style={{ position: "relative", paddingBottom: "56.25%" }}>
+          <iframe
+            src={`https://www.youtube.com/embed?listType=playlist&list=${listId}&rel=0`}
+            title={title}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: "none" }}
+          />
+        </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
+  );
+}
 
 // --- Custom TikTok SVG Icon ---
 function TikTokIcon({ className }) {
@@ -267,7 +265,6 @@ export default function App() {
             Bespoke feel-good soundtracks that evolve with the city lights. <span className="text-orange-400 font-semibold">100% of revenue</span> supporting youth sports and global food banks worldwide.
           </p>
 
-          {/* Interactive Player Mock */}
           <div className="w-full max-w-md bg-zinc-900/60 border border-zinc-800/80 rounded-2xl p-4 mb-12 backdrop-blur-sm flex items-center justify-between group shadow-2xl">
             <div className="flex items-center gap-4">
               <button 
@@ -284,7 +281,6 @@ export default function App() {
             <SoundBars active={isPlaying} count={16} />
           </div>
 
-          {/* Call to Actions */}
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
             <button 
               onClick={() => mixesRef.current?.scrollIntoView({ behavior: "smooth" })}
@@ -328,7 +324,6 @@ export default function App() {
             <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight">The Soundtrack Library</h2>
           </div>
           
-          {/* Genre Filters */}
           <div className="flex flex-wrap gap-2 max-w-xl">
             {GENRES.map((genre) => (
               <button
@@ -342,7 +337,6 @@ export default function App() {
           </div>
         </div>
 
-        {/* Video Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredVideos.map((video) => (
             <VideoCard key={video.id} video={video} />
@@ -392,6 +386,12 @@ export default function App() {
           </div>
         </div>
       </section>
+
+      {/* --- Playlist Sections --- */}
+      <PlaylistEmbed listId="PL9LAITeGWgi4gh00BrS_KNOuZb1bOghIG" title="Summer Wave Feel-Good" />
+      <PlaylistEmbed listId="PL9LAITeGWgi4ik8WsHumW6MEkll162g7F" title="Chill Vibes" />
+      <PlaylistEmbed listId="PL9LAITeGWgi7bk6ELpqtPrpRdUdNMv5cu" title="Sunset Sessions" />
+      <PlaylistEmbed listId="PL9LAITeGWgi5izmYjs5EXnizApn7qjyif" title="Night Drive" />
 
       {/* FOOTER */}
       <footer className="border-t border-zinc-900 bg-zinc-950 py-12 relative z-10">
