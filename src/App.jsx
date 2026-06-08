@@ -30,7 +30,7 @@ const STATS = [
 ];
 
 // Initialize the audio player
-const radioPlayer = typeof Audio !== "undefined" ? new Audio("/Beautiful_Nights.mp3") : null;
+const radioPlayer = typeof Audio !== "undefined" ? new Audio("/Heavens_Gate.mp3") : null;
 
 // --- Playlist Embed Component ---
 function PlaylistEmbed({ listId, title }) {
