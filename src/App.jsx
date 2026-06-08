@@ -139,7 +139,7 @@ export default function App() {
               <button onClick={toggleRadio} className="w-12 h-12 rounded-xl bg-orange-500 flex items-center justify-center text-zinc-950 hover:bg-orange-400 transition-colors shadow-md shadow-orange-500/10">
                 {isPlaying ? <Pause className="w-5 h-5 fill-current" /> : <Play className="w-5 h-5 fill-current ml-0.5" />}
               </button>
-              <div className="text-left"><div className="text-sm font-semibold text-zinc-200 group-hover:text-orange-400 transition-colors">SummerWave Radio Live</div><div className="text-xs text-zinc-500 font-mono">{isPlaying ? "Streaming Joy..." : "Paused"}</div></div>
+              <div className="text-left"><div className="text-sm font-semibold text-zinc-200 group-hover:text-orange-400 transition-colors">SummerWave Radio Live</div><div className="text-xs text-zinc-500 font-mono">{isPlaying ? "Streaming Summer Love Album..." : "Paused"}</div></div>
             </div>
             <SoundBars active={isPlaying} count={16} />
           </div>
