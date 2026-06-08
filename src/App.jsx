@@ -378,7 +378,7 @@ export default function App() {
             <a href="https://www.youtube.com/@summerwavesounds" target="_blank" rel="noopener noreferrer" className="hover:text-red-500 transition-colors" title="YouTube"><Youtube className="w-5 h-5" /></a>
             <a href="https://tiktok.com/@summerwavesounds" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" title="TikTok"><TikTokIcon className="w-5 h-5" /></a>
             <a href="https://instagram.com/summerwavesounds" target="_blank" rel="noopener noreferrer" className="hover:text-pink-500 transition-colors" title="Instagram"><Instagram className="w-5 h-5" /></a>
-            <a href="https://soundcloud.com/@summerwavesounds" target="_blank" rel="noopener noreferrer" className="hover:text-orange-500 transition-colors" title="SoundCloud"><SoundCloudIcon className="w-5 h-5" /></a>
+            <a href="https://soundcloud.com/summerwavesounds" target="_blank" rel="noopener noreferrer" className="hover:text-orange-500 transition-colors" title="SoundCloud"><SoundCloudIcon className="w-5 h-5" /></a>
             <a href="https://x.com/summerwav3" target="_blank" rel="noopener noreferrer" className="hover:text-sky-400 transition-colors" title="Twitter / X"><XIcon className="w-5 h-5" /></a>
           </div>
         </div>
