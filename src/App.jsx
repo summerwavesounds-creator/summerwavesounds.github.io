@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { 
   Play, Pause, ChevronDown, Youtube, Instagram, Music2, ArrowRight, 
-  Sparkles, Globe, Users, Radio, Menu, X, Volume2
+  Sparkles, Globe, Users, Radio, Menu, X 
 } from "lucide-react";
 
 // Updated with your 10 requested videos
@@ -29,6 +29,9 @@ const STATS = [
   { val: "100%", label: "To Good Causes" }
 ];
 
+// Initialize the audio player
+const radioPlayer = typeof Audio !== "undefined" ? new Audio("/Beautiful_Nights.mp3") : null;
+
 // --- Playlist Embed Component ---
 function PlaylistEmbed({ listId, title }) {
   return (
@@ -51,7 +54,7 @@ function PlaylistEmbed({ listId, title }) {
   );
 }
 
-// --- Custom TikTok SVG Icon ---
+// --- Custom Icons ---
 function TikTokIcon({ className }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -60,7 +63,6 @@ function TikTokIcon({ className }) {
   );
 }
 
-// --- Custom SoundCloud SVG Icon ---
 function SoundCloudIcon({ className }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -69,7 +71,6 @@ function SoundCloudIcon({ className }) {
   );
 }
 
-// --- Custom X / Twitter SVG Icon ---
 function XIcon({ className }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -111,7 +112,6 @@ function SoundBars({ active, count = 24, color = "#fb923c" }) {
 
 function VideoCard({ video }) {
   const [playing, setPlaying] = useState(false);
-
   return (
     <div className="group relative bg-zinc-900/40 border border-zinc-800/80 hover:border-orange-500/40 rounded-2xl overflow-hidden transition-all duration-300">
       <div className="relative aspect-video bg-zinc-950 flex items-center justify-center overflow-hidden">
@@ -131,14 +131,12 @@ function VideoCard({ video }) {
               className="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-500"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent opacity-80" />
-            
             <button
               onClick={() => setPlaying(true)}
               className="absolute p-4 rounded-full bg-orange-500 text-white shadow-lg hover:bg-orange-400 hover:scale-110 active:scale-95 transition-all duration-200"
             >
               <Play className="w-6 h-6 fill-current text-white" />
             </button>
-            
             <span className="absolute bottom-3 right-3 px-2 py-0.5 text-xs font-mono bg-black/80 rounded border border-zinc-800 text-zinc-300">
               {video.duration}
             </span>
@@ -148,7 +146,6 @@ function VideoCard({ video }) {
           </>
         )}
       </div>
-
       <div className="p-5">
         <div className="text-xs font-medium text-zinc-500 mb-1">{video.genre}</div>
         <h3 className="font-semibold text-zinc-100 line-clamp-1 group-hover:text-orange-400 transition-colors">
@@ -177,20 +174,27 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const mixesRef = useRef(null);
 
+  // Radio toggle logic
+  const toggleRadio = () => {
+    if (!radioPlayer) return;
+    if (isPlaying) {
+      radioPlayer.pause();
+    } else {
+      radioPlayer.play().catch(e => console.error("Playback error:", e));
+    }
+    setIsPlaying(!isPlaying);
+  };
+
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const filteredVideos = activeGenre === "All" 
-    ? VIDEOS 
-    : VIDEOS.filter(v => v.genre === activeGenre);
+  const filteredVideos = activeGenre === "All" ? VIDEOS : VIDEOS.filter(v => v.genre === activeGenre);
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-zinc-100 font-sans selection:bg-orange-500/30 selection:text-orange-300">
-      
-      {/* HEADER / NAVIGATION */}
       <header className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${scrolled ? "bg-[#0a0a0a]/80 backdrop-blur-md border-b border-zinc-900 py-4" : "bg-transparent py-6"}`}>
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -202,73 +206,52 @@ export default function App() {
               <span className="text-xs block text-orange-400 font-medium tracking-widest uppercase -mt-1">Sounds</span>
             </div>
           </div>
-
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
             <button onClick={() => mixesRef.current?.scrollIntoView({ behavior: "smooth" })} className="hover:text-zinc-100 transition-colors">Mixes</button>
             <a href="#about" className="hover:text-zinc-100 transition-colors">Our Story</a>
             <a href="#mission" className="hover:text-zinc-100 transition-colors">Our Mission</a>
           </nav>
-
           <div className="hidden md:flex items-center gap-4">
-            <a 
-              href="https://www.youtube.com/@summerwavesounds?sub_confirmation=1"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-5 py-2 rounded-full bg-orange-500 text-zinc-950 font-semibold text-sm hover:bg-orange-400 hover:shadow-lg hover:shadow-orange-500/10 transition-all duration-200"
-            >
+            <a href="https://www.youtube.com/@summerwavesounds?sub_confirmation=1" target="_blank" rel="noopener noreferrer" className="px-5 py-2 rounded-full bg-orange-500 text-zinc-950 font-semibold text-sm hover:bg-orange-400 hover:shadow-lg hover:shadow-orange-500/10 transition-all duration-200">
               Subscribe Free
             </a>
           </div>
-
           <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden p-2 text-zinc-400 hover:text-zinc-100">
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
       </header>
 
-      {/* MOBILE MENU */}
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-40 bg-[#0a0a0a] pt-24 px-6 flex flex-col gap-6 md:hidden">
-          <button 
-            onClick={() => { setMobileMenuOpen(false); mixesRef.current?.scrollIntoView({ behavior: "smooth" }); }}
-            className="text-left text-lg font-medium py-2 border-b border-zinc-900"
-          >
+          <button onClick={() => { setMobileMenuOpen(false); mixesRef.current?.scrollIntoView({ behavior: "smooth" }); }} className="text-left text-lg font-medium py-2 border-b border-zinc-900">
             Latest Mixes
           </button>
           <a href="#about" onClick={() => setMobileMenuOpen(false)} className="text-lg font-medium py-2 border-b border-zinc-900">Our Story</a>
           <a href="#mission" onClick={() => setMobileMenuOpen(false)} className="text-lg font-medium py-2 border-b border-zinc-900">Our Mission</a>
-          <a 
-            href="https://www.youtube.com/@summerwavesounds?sub_confirmation=1"
-            className="mt-4 w-full py-3 rounded-xl bg-orange-500 text-center text-zinc-950 font-bold"
-          >
+          <a href="https://www.youtube.com/@summerwavesounds?sub_confirmation=1" className="mt-4 w-full py-3 rounded-xl bg-orange-500 text-center text-zinc-950 font-bold">
             Subscribe on YouTube
           </a>
         </div>
       )}
 
-      {/* HERO SECTION */}
       <section className="relative pt-32 pb-24 md:pt-44 md:pb-36 flex flex-col items-center justify-center text-center px-6 overflow-hidden">
         <HeroBackground />
-
         <div className="relative max-w-4xl mx-auto z-10 flex flex-col items-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900/80 border border-zinc-800 text-xs font-medium text-orange-400 mb-6 backdrop-blur-sm shadow-inner">
             <Radio className="w-3.5 h-3.5 animate-pulse" />
             <span>FEEL-GOOD MUSIC • EDM • DEEP HOUSE • UK GARAGE</span>
           </div>
-
           <h1 className="text-5xl md:text-8xl font-black tracking-tighter mb-6 bg-gradient-to-b from-white via-zinc-200 to-zinc-500 bg-clip-text text-transparent leading-none uppercase">
-            Feel the <br />
-            <span className="bg-gradient-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent">Good Vibes</span>
+            Feel the <br /> <span className="bg-gradient-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent">Good Vibes</span>
           </h1>
-
           <p className="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed font-normal">
             Bespoke feel-good soundtracks that evolve with the city lights. <span className="text-orange-400 font-semibold">100% of revenue</span> supporting youth sports and global food banks worldwide.
           </p>
-
           <div className="w-full max-w-md bg-zinc-900/60 border border-zinc-800/80 rounded-2xl p-4 mb-12 backdrop-blur-sm flex items-center justify-between group shadow-2xl">
             <div className="flex items-center gap-4">
               <button 
-                onClick={() => setIsPlaying(!isPlaying)}
+                onClick={toggleRadio}
                 className="w-12 h-12 rounded-xl bg-orange-500 flex items-center justify-center text-zinc-950 hover:bg-orange-400 transition-colors shadow-md shadow-orange-500/10"
               >
                 {isPlaying ? <Pause className="w-5 h-5 fill-current" /> : <Play className="w-5 h-5 fill-current ml-0.5" />}
@@ -280,50 +263,34 @@ export default function App() {
             </div>
             <SoundBars active={isPlaying} count={16} />
           </div>
-
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-            <button 
-              onClick={() => mixesRef.current?.scrollIntoView({ behavior: "smooth" })}
-              className="px-8 py-4 rounded-xl bg-gradient-to-r from-orange-500 to-yellow-500 text-zinc-950 font-bold text-base hover:opacity-90 shadow-xl shadow-orange-500/10 transition-all duration-200 flex items-center justify-center gap-2"
-            >
+            <button onClick={() => mixesRef.current?.scrollIntoView({ behavior: "smooth" })} className="px-8 py-4 rounded-xl bg-gradient-to-r from-orange-500 to-yellow-500 text-zinc-950 font-bold text-base hover:opacity-90 shadow-xl shadow-orange-500/10 transition-all duration-200 flex items-center justify-center gap-2">
               Listen Now <ChevronDown className="w-4 h-4 animate-bounce" />
             </button>
-            <a 
-              href="https://www.youtube.com/@summerwavesounds?sub_confirmation=1"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-8 py-4 rounded-xl bg-zinc-900 border border-zinc-800 hover:border-zinc-700 font-bold text-base text-zinc-200 transition-all duration-200 flex items-center justify-center gap-2"
-            >
+            <a href="https://www.youtube.com/@summerwavesounds?sub_confirmation=1" target="_blank" rel="noopener noreferrer" className="px-8 py-4 rounded-xl bg-zinc-900 border border-zinc-800 hover:border-zinc-700 font-bold text-base text-zinc-200 transition-all duration-200 flex items-center justify-center gap-2">
               <Youtube className="w-5 h-5 text-red-500 fill-current" /> Subscribe Free
             </a>
           </div>
         </div>
       </section>
 
-      {/* STATS BANNER */}
       <section className="border-y border-zinc-900 bg-zinc-950/40 backdrop-blur-sm py-12 relative z-10">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
           {STATS.map((stat, idx) => (
             <div key={idx} className="text-center">
-              <div className="text-3xl md:text-4xl font-black bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent mb-1 font-mono">
-                {stat.val}
-              </div>
-              <div className="text-xs uppercase tracking-widest font-semibold text-zinc-500">
-                {stat.label}
-              </div>
+              <div className="text-3xl md:text-4xl font-black bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent mb-1 font-mono">{stat.val}</div>
+              <div className="text-xs uppercase tracking-widest font-semibold text-zinc-500">{stat.label}</div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* FEATURED / LATEST MIXES */}
       <section ref={mixesRef} className="py-24 max-w-7xl mx-auto px-6 relative z-10">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div>
             <div className="text-xs font-bold tracking-widest text-orange-400 uppercase mb-2">Curated Collections</div>
             <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight">The Soundtrack Library</h2>
           </div>
-          
           <div className="flex flex-wrap gap-2 max-w-xl">
             {GENRES.map((genre) => (
               <button
@@ -336,15 +303,11 @@ export default function App() {
             ))}
           </div>
         </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredVideos.map((video) => (
-            <VideoCard key={video.id} video={video} />
-          ))}
+          {filteredVideos.map((video) => <VideoCard key={video.id} video={video} />)}
         </div>
       </section>
 
-      {/* ABOUT / OUR STORY */}
       <section id="about" className="py-24 border-t border-zinc-900 bg-zinc-950/20 relative overflow-hidden">
         <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
           <div className="w-12 h-12 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-orange-400 mx-auto mb-6 shadow-inner">
@@ -357,13 +320,11 @@ export default function App() {
         </div>
       </section>
 
-      {/* MISSION / IMPACT CARDS */}
       <section id="mission" className="py-24 border-t border-zinc-900 max-w-7xl mx-auto px-6 relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="text-xs font-bold tracking-widest text-orange-400 uppercase mb-2">Our Commitments</div>
           <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight">Where the Revenue Goes</h2>
         </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           <div className="bg-zinc-900/30 border border-zinc-800/80 rounded-2xl p-8 hover:border-orange-500/20 transition-all group">
             <div className="w-12 h-12 rounded-xl bg-orange-500/10 text-orange-400 flex items-center justify-center mb-6 border border-orange-500/20 group-hover:bg-orange-500 group-hover:text-zinc-950 transition-colors">
@@ -374,7 +335,6 @@ export default function App() {
               We allocate funds directly into grassroots basketball leagues, soccer clubs, and swim training sponsorships via community centers, enabling children of all financial backgrounds to experience team dynamics, structural health, and active play.
             </p>
           </div>
-
           <div className="bg-zinc-900/30 border border-zinc-800/80 rounded-2xl p-8 hover:border-orange-500/20 transition-all group">
             <div className="w-12 h-12 rounded-xl bg-yellow-500/10 text-yellow-400 flex items-center justify-center mb-6 border border-yellow-500/20 group-hover:bg-yellow-500 group-hover:text-zinc-950 transition-colors">
               <Globe className="w-6 h-6" />
@@ -387,22 +347,17 @@ export default function App() {
         </div>
       </section>
 
-      {/* --- Playlist Sections --- */}
       <PlaylistEmbed listId="PL9LAITeGWgi4gh00BrS_KNOuZb1bOghIG" title="Summer Wave Feel-Good Music Playlists" />
       <PlaylistEmbed listId="PL9LAITeGWgi4ik8WsHumW6MEkll162g7F" title="Chill Vibes" />
       <PlaylistEmbed listId="PL9LAITeGWgi7bk6ELpqtPrpRdUdNMv5cu" title="Night Drive" />
       <PlaylistEmbed listId="PL9LAITeGWgi5izmYjs5EXnizApn7qjyif" title="Sunset Sessions" />
 
-      {/* FOOTER */}
       <footer className="border-t border-zinc-900 bg-zinc-950 py-12 relative z-10">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-orange-500 flex items-center justify-center text-zinc-950 font-bold text-sm">
-              S
-            </div>
+            <div className="w-8 h-8 rounded-lg bg-orange-500 flex items-center justify-center text-zinc-950 font-bold text-sm">S</div>
             <span className="text-sm font-semibold tracking-tight text-zinc-400">© 2026 SummerWave Sounds. All Rights Reserved.</span>
           </div>
-
           <div className="flex items-center gap-6 text-zinc-500">
             <a href="https://www.youtube.com/@summerwavesounds" target="_blank" rel="noopener noreferrer" className="hover:text-red-500 transition-colors" title="YouTube"><Youtube className="w-5 h-5" /></a>
             <a href="https://tiktok.com/@summerwavesounds" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" title="TikTok"><TikTokIcon className="w-5 h-5" /></a>
@@ -412,7 +367,6 @@ export default function App() {
           </div>
         </div>
       </footer>
-
     </div>
   );
 }
