@@ -352,7 +352,7 @@ export default function App() {
           </div>
           <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tight mb-6">Music with Pure Purpose</h2>
           <p className="text-lg text-zinc-400 leading-relaxed max-w-3xl mx-auto font-normal">
-            SummerWave Sounds was founded to unite dynamic electronic soundscapes with global humanitarian work. We construct seamless musical mixes meticulously engineered to keep you focused, energized, and inspired, whether you are coding, relaxing, or working out.
+            SummerWave Sounds was founded to unite dynamic electronic soundscapes with global humanitarian work. We construct seamless musical mixes meticulously engineered to keep you focused, energized, and inspired, whether you are studying, relaxing, or working out.
           </p>
         </div>
       </section>
