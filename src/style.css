@@ -1,0 +1,11 @@
+body {
+  font-family: sans-serif;
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+.artist-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
