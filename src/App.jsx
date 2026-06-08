@@ -6,19 +6,19 @@ import {
 
 // Updated with your 10 requested videos
 const VIDEOS = [
-  { id: "aRWlJnwGEkw", title: "Summer Wave Sounds – Deep House Mix", genre: "Deep House", tag: "🍹 Tropical", duration: "1:00:00", mood: "Chill" },
-  { id: "Qk4qBu4jWeQ", title: "Summer Wave Sounds – Sunset Vibes", genre: "Chill EDM", tag: "🌅 Sunset", duration: "1:00:00", mood: "Sunset Drive" },
+  { id: "aRWlJnwGEkw", title: "Summer Wave Sounds – Feel Good Mix", genre: "EDM / Feel Good", tag: "🍹 Tropical", duration: "26:59", mood: "Chill" },
+  { id: "Qk4qBu4jWeQ", title: "Summer Wave Sounds – Alternative Rock Mix", genre: "Alternative Rock", tag: "🌙 Night", duration: "21:36", mood: "Sunset Drive" },
   { id: "Aluy6rWdnW0", title: "Summer Wave Sounds – Feel Good Mix", genre: "EDM / Feel Good", tag: "☀️ Summer", duration: "1:00:00", mood: "Feel Good" },
   { id: "flmE6i-wpJ8", title: "Summer Wave Sounds – Night Vibes", genre: "Night Vibes", tag: "🌙 Night", duration: "1:00:00", mood: "Late Night" },
   { id: "uEc-z3seLM4", title: "Summer Wave Sounds – Tropical House", genre: "Deep House", tag: "🍹 Tropical", duration: "1:00:00", mood: "Chill" },
   { id: "53MSJ0_tIlI", title: "POV: It's late at night and you can't sleep", genre: "Night Vibes", tag: "🌙 Night", duration: "21:37", mood: "Late Night" },
   { id: "LnJ_QgHIBdA", title: "Summer Wave Sounds – Summer Anthem", genre: "Summer Anthem", tag: "☀️ Summer", duration: "1:00:00", mood: "Vibes" },
-  { id: "jfLPY3LBVmU", title: "Summer Wave Sounds – Deep House Sessions", genre: "Deep House", tag: "🌅 Sunset", duration: "1:00:00", mood: "Chill" },
+  { id: "jfLPY3LBVmU", title: "Summer Wave Sounds – Feel Good Pop", genre: "Pop", tag: "🌅 Sunset", duration: "2:49", mood: "Chill" },
   { id: "9tQr_M5cVho", title: "Summer Wave Sounds – Chill EDM Mix", genre: "Chill EDM", tag: "🌴 Tropical", duration: "1:00:00", mood: "Vibes" },
   { id: "WivN8WDgjCU", title: "Summer Wave Sounds – Midnight Mix", genre: "Night Vibes", tag: "🌙 Night", duration: "1:00:00", mood: "Late Night" }
 ];
 
-const GENRES = ["All", "EDM / Feel Good", "Deep House", "Summer Anthem", "Chill EDM", "Night Vibes"];
+const GENRES = ["All", "EDM / Feel Good", "Deep House", "Summer Anthem", "Chill EDM", "Night Vibes", "Alternative Rock", "Pop"];
 
 // Updated Stats perfectly matching your request
 const STATS = [
