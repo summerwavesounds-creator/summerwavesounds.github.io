@@ -1,0 +1,3 @@
+git add .
+git commit -m "Fix project structure for Vercel build configuration"
+git push origin main
