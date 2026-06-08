@@ -17,7 +17,7 @@ const VIDEOS = [
   { id: "9tQr_M5cVho", title: "Summer Wave Sounds – Chill EDM Mix", genre: "Chill EDM", tag: "🌴 Tropical", duration: "1:00:00", mood: "Vibes" },
   { id: "WivN8WDgjCU", title: "Summer Wave Sounds – Midnight Mix", genre: "Night Vibes", tag: "🌙 Night", duration: "1:00:00", mood: "Late Night" }
   { id: "4m_OelXo9hQ", title: "Summer Wave Sounds – Driving Into The Sunset", genre: "Chill EDM", tag: "🌅 Sunset", duration: "24:02", mood: "Sunset Drive" },
-  { id: "3SzARMybdbk", title: "Summer Wave Sounds – Pure Energy Mix", genre: "EDM / Feel Good", tag: "☀️ Summer", duration: "1:00:00", mood: "Feel Good" }
+  { id: "3SzARMybdbk", title: "Summer Wave Sounds – Pure Energy Mix", genre: "EDM / Feel Good", tag: "☀️ Summer", duration: "1:00:00", mood: "Feel Good" },
 ];
 
 const GENRES = ["All", "EDM / Feel Good", "Deep House", "Summer Anthem", "Chill EDM", "Night Vibes", "Alternative Rock", "Pop"];
