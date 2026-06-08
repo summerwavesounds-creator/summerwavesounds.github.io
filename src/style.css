@@ -1,11 +1,12 @@
-body {
-  font-family: sans-serif;
-  padding: 20px;
-  background-color: #f4f4f4;
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  background-color: #0a0a0a;
+  color: #fafaf9;
 }
 
-.artist-section {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+* {
+  box-sizing: border-box;
 }
