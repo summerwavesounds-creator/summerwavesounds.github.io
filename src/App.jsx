@@ -388,10 +388,10 @@ export default function App() {
       </section>
 
       {/* --- Playlist Sections --- */}
-      <PlaylistEmbed listId="PL9LAITeGWgi4gh00BrS_KNOuZb1bOghIG" title="Summer Wave Feel-Good" />
+      <PlaylistEmbed listId="PL9LAITeGWgi4gh00BrS_KNOuZb1bOghIG" title="Summer Wave Feel-Good Music Playlists" />
       <PlaylistEmbed listId="PL9LAITeGWgi4ik8WsHumW6MEkll162g7F" title="Chill Vibes" />
-      <PlaylistEmbed listId="PL9LAITeGWgi7bk6ELpqtPrpRdUdNMv5cu" title="Sunset Sessions" />
-      <PlaylistEmbed listId="PL9LAITeGWgi5izmYjs5EXnizApn7qjyif" title="Night Drive" />
+      <PlaylistEmbed listId="PL9LAITeGWgi7bk6ELpqtPrpRdUdNMv5cu" title="Night Drive" />
+      <PlaylistEmbed listId="PL9LAITeGWgi5izmYjs5EXnizApn7qjyif" title="Sunset Sessions" />
 
       {/* FOOTER */}
       <footer className="border-t border-zinc-900 bg-zinc-950 py-12 relative z-10">
