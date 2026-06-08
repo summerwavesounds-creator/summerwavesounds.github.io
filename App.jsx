@@ -1,3 +1,19 @@
+import React from 'react';
+import ArtistSection from './ArtistSection'; // Import the new file
+
+function App() {
+  return (
+    <div className="App">
+      <h1>My Music Site</h1>
+      {/* Your existing components go here */}
+      
+      <ArtistSection />
+    </div>
+  );
+}
+
+export default App;
+
 import { useState, useEffect, useRef } from "react";
 import { 
   Play, Pause, ChevronDown, Youtube, Instagram, Music2, ArrowRight, 
