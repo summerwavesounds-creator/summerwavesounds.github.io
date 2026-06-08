@@ -1,5 +1,5 @@
 import React from 'react';
-import artistProfile from './assets/694785182_4334793436737116_6867958973355933936_n.jpg';
+import artistProfile from './assets/summerwave2.jpg';
 import summerVibes from './assets/Summerwave.jpg';
 
 const ArtistSection = () => {
