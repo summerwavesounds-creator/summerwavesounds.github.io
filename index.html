@@ -9,15 +9,13 @@
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body class="bg-[#0a0a0a] text-[#fafaf9]">
     
     <div id="root"></div>
 
     <script type="text/babel">
-      const { useState, useEffect, useRef } = React;
-      const { Play, Pause, Headphones, Radio, Youtube } = Lucide;
+      const { useState } = React;
 
       const VIDEOS = [
         { id: "GnmG5FX2M2E", title: "Feel-Good City Vibes Mix", genre: "Deep House", tag: "🏙️ City Nights", duration: "1 HR" },
@@ -35,7 +33,6 @@
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, #0a0a0a 0%, #1a0a00 30%, #2d1200 55%, #0a0a0a 100%)" }} />
             <div style={{ position: "absolute", top: "10%", left: "5%", width: "500px", height: "500px", borderRadius: "50%", background: "radial-gradient(circle, rgba(251,146,60,0.12) 0%, transparent 70%)" }} />
-            <div className="absolute bottom-0 left-0 right-0 h-[200px]" style={{ background: "linear-gradient(to bottom, transparent, #0a0a0a)" }} />
           </div>
         );
       }
@@ -74,7 +71,7 @@
                   <div className="absolute top-3 left-3 bg-orange-500/20 backdrop-blur-md border border-orange-500/30 rounded-lg px-[10px] py-[3px] text-[11px] font-semibold text-yellow-200">{video.tag}</div>
                   <div onClick={() => setPlaying(true)} className="absolute inset-0 flex items-center justify-center cursor-pointer bg-black/20 hover:bg-black/40">
                     <div className="w-14 h-14 rounded-full bg-gradient-to-r from-orange-500 to-yellow-500 flex items-center justify-center shadow-lg">
-                      <Play size={22} fill="white" color="white" className="ml-1" />
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="white" stroke="white" strokeWidth="2" className="ml-1"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
                     </div>
                   </div>
                 </>
@@ -104,7 +101,7 @@
               <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
                   <div className="w-9 h-9 rounded-xl bg-gradient-to-r from-orange-500 to-yellow-500 flex items-center justify-center">
-                    <Headphones size={18} color="white" />
+                    <span className="text-white font-bold text-sm">🎧</span>
                   </div>
                   <div>
                     <div className="text-sm font-black text-stone-100 tracking-tight uppercase">SummerWave</div>
@@ -121,7 +118,7 @@
               <HeroBackground />
               <div className="relative z-10 max-w-3xl mx-auto">
                 <div className="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500/20 rounded-full px-4 py-1.5 mb-6 text-[11px] font-bold text-orange-400 tracking-widest uppercase">
-                  <Radio size={12} className="animate-pulse" /> Feel-Good Music — EDM · Deep House
+                  📡 Feel-Good Music — EDM · Deep House
                 </div>
                 <h1 className="text-5xl md:text-7xl font-black tracking-tight uppercase leading-none mb-6 font-['Bebas_Neue'] bg-gradient-to-b from-white to-stone-400 bg-clip-text text-transparent">
                   FEEL THE<br />
