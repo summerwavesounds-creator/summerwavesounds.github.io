@@ -4,13 +4,18 @@ import {
   Sparkles, Globe, Users, Radio, Menu, X, Volume2
 } from "lucide-react";
 
-// The 5 EXACT videos you requested
+// Updated with your 10 requested videos
 const VIDEOS = [
-  { id: "k7lLeoEULMI", title: "CloudNine - Feel Good Summer Music", genre: "EDM / Feel Good", tag: "☀️ Summer", duration: "2:19", mood: "Feel Good" },
-  { id: "kTPBVNJT0wc", title: "Aaron Loeb - Why Are You Talking To Me This?", genre: "Deep House", tag: "🍹 Tropical", duration: "3:40", mood: "Chill" },
-  { id: "pw7K1YfizW8", title: "POV: You just found the summer anthem you'll play on repeat", genre: "Summer Anthem", tag: "🌅 Sunset", duration: "24:54", mood: "Vibes" },
-  { id: "4m_OelXo9hQ", title: "POV: You’re driving into the sunset and the world feels brand new", genre: "Chill EDM", tag: "🌴 Tropical", duration: "24:02", mood: "Sunset Drive" },
-  { id: "53MSJ0_tIlI", title: "POV: It's late at night and you can't sleep", genre: "Night Vibes", tag: "🌙 Night", duration: "21:37", mood: "Late Night" }
+  { id: "aRWlJnwGEkw", title: "Summer Wave Sounds – Deep House Mix", genre: "Deep House", tag: "🍹 Tropical", duration: "1:00:00", mood: "Chill" },
+  { id: "Qk4qBu4jWeQ", title: "Summer Wave Sounds – Sunset Vibes", genre: "Chill EDM", tag: "🌅 Sunset", duration: "1:00:00", mood: "Sunset Drive" },
+  { id: "Aluy6rWdnW0", title: "Summer Wave Sounds – Feel Good Mix", genre: "EDM / Feel Good", tag: "☀️ Summer", duration: "1:00:00", mood: "Feel Good" },
+  { id: "flmE6i-wpJ8", title: "Summer Wave Sounds – Night Vibes", genre: "Night Vibes", tag: "🌙 Night", duration: "1:00:00", mood: "Late Night" },
+  { id: "uEc-z3seLM4", title: "Summer Wave Sounds – Tropical House", genre: "Deep House", tag: "🍹 Tropical", duration: "1:00:00", mood: "Chill" },
+  { id: "53MSJ0_tIlI", title: "POV: It's late at night and you can't sleep", genre: "Night Vibes", tag: "🌙 Night", duration: "21:37", mood: "Late Night" },
+  { id: "LnJ_QgHIBdA", title: "Summer Wave Sounds – Summer Anthem", genre: "Summer Anthem", tag: "☀️ Summer", duration: "1:00:00", mood: "Vibes" },
+  { id: "jfLPY3LBVmU", title: "Summer Wave Sounds – Deep House Sessions", genre: "Deep House", tag: "🌅 Sunset", duration: "1:00:00", mood: "Chill" },
+  { id: "9tQr_M5cVho", title: "Summer Wave Sounds – Chill EDM Mix", genre: "Chill EDM", tag: "🌴 Tropical", duration: "1:00:00", mood: "Vibes" },
+  { id: "WivN8WDgjCU", title: "Summer Wave Sounds – Midnight Mix", genre: "Night Vibes", tag: "🌙 Night", duration: "1:00:00", mood: "Late Night" }
 ];
 
 const GENRES = ["All", "EDM / Feel Good", "Deep House", "Summer Anthem", "Chill EDM", "Night Vibes"];
@@ -36,7 +41,7 @@ function TikTokIcon({ className }) {
 function SoundCloudIcon({ className }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M11.56 12.78c0-.58.04-1.14.13-1.68-.44-.31-.96-.49-1.53-.49-.52 0-1 .15-1.41.4-.29-.64-.93-1.09-1.68-1.09-.34 0-.66.09-.94.25c-.27-.88-1.1-1.53-2.07-1.53-.61 0-1.17.26-1.56.68V9.43c0-.13-.11-.24-.24-.24s-.24.11-.24.24v4.99c0 .13.11.24.24.24s.24-.11.24-.24v-.27c.39.42.94.68 1.56.68.98 0 1.81-.65 2.07-1.53.28.16.6.25.94.25.75 0 1.39-.45 1.68-1.09.41.25.89.4 1.41.4.57 0 1.09-.18 1.53-.49-.09-.55-.13-1.11-.13-1.69zm11.93.99c-.11-.64-.42-1.22-.89-1.66-.46-.44-1.05-.71-1.7-.77-.18-1.37-1.11-2.47-2.38-2.82-.41-.11-.84-.17-1.28-.17-.79 0-1.54.2-2.2.55-.41-.53-.99-.91-1.66-1.06-.31-.07-.63-.11-.96-.11-1.07 0-2.02.48-2.66 1.24.16.53.25 1.09.25 1.67 0 .59-.09 1.15-.25 1.68.64.76 1.59 1.24 2.66 1.24.33 0 .65-.04.96-.11.67-.15 1.25-.53 1.66-1.06.66.35 1.41.55 2.2.55.44 0 .87-.06 1.28-.17 1.27-.35 2.2-1.45 2.38-2.82.65-.06 1.24-.33 1.7-.77.47-.44.78-1.02.89-1.66.06-.35.09-.72.09-1.09 0-.36-.03-.73-.09-1.08z"/>
+      <path d="M11.56 12.78c0-.58.04-1.14.13-1.68-.44-.31-.96-.49-1.53-.49-.52 0-1 .15-1.41.4-.29-.64-.93-1.09-1.68-1.09-.34 0-.66.09-.94.25c-.27-.88-1.1-1.53-2.07-1.53-.61 0-1.17.26-1.56.68V9.43c0-.13-.11-.24-.24-.24s-.24.11-.24.24v4.99c0 .13.11.24.24.24s-.24-.11.24-.24v-.27c.39.42.94.68 1.56.68.98 0 1.81-.65 2.07-1.53.28.16.6.25.94.25.75 0 1.39-.45 1.68-1.09.41.25.89.4 1.41.4.57 0 1.09-.18 1.53-.49-.09-.55-.13-1.11-.13-1.69zm11.93.99c-.11-.64-.42-1.22-.89-1.66-.46-.44-1.05-.71-1.7-.77-.18-1.37-1.11-2.47-2.38-2.82-.41-.11-.84-.17-1.28-.17-.79 0-1.54.2-2.2.55-.41-.53-.99-.91-1.66-1.06-.31-.07-.63-.11-.96-.11-1.07 0-2.02.48-2.66 1.24.16.53.25 1.09.25 1.67 0 .59-.09 1.15-.25 1.68.64.76 1.59 1.24 2.66 1.24.33 0 .65-.04.96-.11.67-.15 1.25-.53 1.66-1.06.66.35 1.41.55 2.2.55.44 0 .87-.06 1.28-.17 1.27-.35 2.2-1.45 2.38-2.82.65-.06 1.24-.33 1.7-.77.47-.44.78-1.02.89-1.66.06-.35.09-.72.09-1.09 0-.36-.03-.73-.09-1.08z"/>
     </svg>
   );
 }
@@ -312,7 +317,7 @@ export default function App() {
           </div>
         </div>
 
-        {/* Video Grid containing your 5 EXACT requested songs */}
+        {/* Video Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredVideos.map((video) => (
             <VideoCard key={video.id} video={video} />
@@ -363,7 +368,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* FOOTER - Configured with your requested links */}
+      {/* FOOTER */}
       <footer className="border-t border-zinc-900 bg-zinc-950 py-12 relative z-10">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-2">
@@ -373,7 +378,6 @@ export default function App() {
             <span className="text-sm font-semibold tracking-tight text-zinc-400">© 2026 SummerWave Sounds. All Rights Reserved.</span>
           </div>
 
-          {/* Social Links Panel */}
           <div className="flex items-center gap-6 text-zinc-500">
             <a href="https://www.youtube.com/@summerwavesounds" target="_blank" rel="noopener noreferrer" className="hover:text-red-500 transition-colors" title="YouTube"><Youtube className="w-5 h-5" /></a>
             <a href="https://tiktok.com/@summerwavesounds" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" title="TikTok"><TikTokIcon className="w-5 h-5" /></a>
