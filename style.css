@@ -1,159 +1,869 @@
-:root {
-    --gold: #B59A6D;
-    --ivory: #FAF9F6;
-    --charcoal: #333333;
-    --white: #FFFFFF;
-    --serif: 'Playfair Display', serif;
-    --sans: 'Inter', sans-serif;
+import { useState, useEffect, useRef } from "react";
+import {
+  Play, Pause, ChevronDown, Heart, Youtube, Instagram,
+  Twitter, Music2, ArrowRight, Sparkles, Globe, Users,
+  Zap, Headphones, Radio, Star, Menu, X, Volume2,
+  TrendingUp, Coffee, Moon, Sun
+} from "lucide-react";
+
+/* ─────────────────────────────────────────────
+   REAL videos from SummerWaveSounds channel
+   (confirmed embed IDs from channel / shared link)
+───────────────────────────────────────────── */
+const VIDEOS = [
+  {
+    id: "GnmG5FX2M2E",
+    title: "Feel-Good City Vibes Mix",
+    genre: "Deep House",
+    tag: "🏙️ City Nights",
+    duration: "1 HR",
+    mood: "City Vibes",
+  },
+  {
+    id: "v5SLMXc6d8Q",
+    title: "Summer Wave Sounds – Feel Good EDM",
+    genre: "EDM / Feel Good",
+    tag: "☀️ Summer",
+    duration: "1 HR",
+    mood: "Feel Good",
+  },
+  {
+    id: "KwBARVeSJM0",
+    title: "Deep House Summer Mix 2025 | Chill • Tropical Vibes",
+    genre: "Deep House",
+    tag: "🍹 Tropical",
+    duration: "1 HR",
+    mood: "Chill",
+  },
+  {
+    id: "ZZjKsakgbgw",
+    title: "Summer Deep House Mix 2026 | Luxury Poolside Lounge",
+    genre: "Deep House",
+    tag: "🌅 Sunset",
+    duration: "1 HR",
+    mood: "Sunset",
+  },
+  {
+    id: "jjX6AGi6v5g",
+    title: "Summer Music Mix 2026 – Night Vibes / Stress Relief",
+    genre: "Chill EDM",
+    tag: "🌙 Night",
+    duration: "1 HR",
+    mood: "Night",
+  },
+  {
+    id: "WhqEGF5LoDk",
+    title: "Summer Relaxing Vibes 4K UHD 2026 | Chill Tropical Mix",
+    genre: "Tropical House",
+    tag: "🌴 Tropical",
+    duration: "1 HR",
+    mood: "Chill",
+  },
+];
+
+const GENRES = ["All", "Deep House", "EDM / Feel Good", "Chill EDM", "Tropical House", "UK Garage"];
+
+const STATS = [
+  { val: "540+", label: "Subscribers" },
+  { val: "50K+", label: "Total Views" },
+  { val: "1HR", label: "No-Ad Mixes" },
+  { val: "100%", label: "To Good Causes" },
+];
+
+/* ── Particle burst background ─────────────────────────── */
+function HeroBackground() {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Main gradient */}
+      <div className="absolute inset-0" style={{
+        background: "linear-gradient(135deg, #0a0a0a 0%, #1a0a00 30%, #2d1200 55%, #1a0800 80%, #0a0a0a 100%)"
+      }} />
+      {/* Glowing orbs */}
+      <div style={{
+        position: "absolute", top: "10%", left: "5%",
+        width: 500, height: 500, borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(251,146,60,0.18) 0%, transparent 70%)",
+        animation: "pulse1 8s ease-in-out infinite",
+      }} />
+      <div style={{
+        position: "absolute", top: "40%", right: "5%",
+        width: 400, height: 400, borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(234,179,8,0.15) 0%, transparent 70%)",
+        animation: "pulse2 11s ease-in-out infinite",
+      }} />
+      <div style={{
+        position: "absolute", bottom: "10%", left: "40%",
+        width: 350, height: 350, borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(249,115,22,0.12) 0%, transparent 70%)",
+        animation: "pulse1 9s ease-in-out infinite reverse",
+      }} />
+      {/* Grid lines */}
+      <div style={{
+        position: "absolute", inset: 0,
+        backgroundImage: "linear-gradient(rgba(251,146,60,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(251,146,60,0.04) 1px, transparent 1px)",
+        backgroundSize: "60px 60px",
+      }} />
+      {/* Bottom fade */}
+      <div style={{
+        position: "absolute", bottom: 0, left: 0, right: 0, height: 200,
+        background: "linear-gradient(to bottom, transparent, #0a0a0a)"
+      }} />
+    </div>
+  );
 }
 
-body {
-    margin: 0;
-    font-family: var(--sans);
-    background-color: var(--white);
-    color: var(--charcoal);
-    line-height: 1.6;
+/* ── Soundwave visualizer bars ─────────────────────────── */
+function SoundBars({ active, count = 24, color = "#fb923c" }) {
+  return (
+    <div style={{ display: "flex", alignItems: "flex-end", gap: 3, height: 40 }}>
+      {Array.from({ length: count }).map((_, i) => (
+        <div key={i} style={{
+          width: 3,
+          borderRadius: 9999,
+          background: color,
+          minHeight: 4,
+          height: active
+            ? `${18 + Math.abs(Math.sin(i * 0.7)) * 22}px`
+            : "6px",
+          opacity: active ? 0.85 : 0.25,
+          transition: `height ${0.4 + (i % 5) * 0.08}s ease-in-out`,
+          animation: active ? `bar${i % 4} ${1.2 + (i % 3) * 0.3}s ease-in-out infinite alternate` : "none",
+        }} />
+      ))}
+    </div>
+  );
 }
 
-.container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 40px;
+/* ── Inline video card ─────────────────────────────────── */
+function VideoCard({ video, featured = false }) {
+  const [hovered, setHovered] = useState(false);
+  const [playing, setPlaying] = useState(false);
+
+  return (
+    <div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => { setHovered(false); }}
+      style={{
+        borderRadius: featured ? 24 : 18,
+        overflow: "hidden",
+        background: "rgba(255,255,255,0.03)",
+        border: `1px solid ${hovered ? "rgba(251,146,60,0.4)" : "rgba(255,255,255,0.06)"}`,
+        transition: "all 0.4s cubic-bezier(0.4,0,0.2,1)",
+        transform: hovered ? "translateY(-6px)" : "translateY(0)",
+        boxShadow: hovered ? "0 24px 60px rgba(251,146,60,0.15)" : "none",
+        cursor: "pointer",
+      }}
+    >
+      {/* Embed */}
+      <div style={{ position: "relative", paddingBottom: "56.25%", background: "#111" }}>
+        {playing ? (
+          <iframe
+            src={`https://www.youtube.com/embed/${video.id}?autoplay=1&rel=0`}
+            allow="autoplay; encrypted-media"
+            allowFullScreen
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: "none" }}
+          />
+        ) : (
+          <>
+            <img
+              src={`https://img.youtube.com/vi/${video.id}/maxresdefault.jpg`}
+              alt={video.title}
+              onError={e => { e.target.src = `https://img.youtube.com/vi/${video.id}/hqdefault.jpg`; }}
+              style={{
+                position: "absolute", inset: 0,
+                width: "100%", height: "100%",
+                objectFit: "cover",
+                transform: hovered ? "scale(1.04)" : "scale(1)",
+                transition: "transform 0.5s ease",
+              }}
+            />
+            {/* Gradient overlay */}
+            <div style={{
+              position: "absolute", inset: 0,
+              background: "linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%)",
+            }} />
+            {/* Duration badge */}
+            <div style={{
+              position: "absolute", top: 12, right: 12,
+              background: "rgba(0,0,0,0.75)",
+              backdropFilter: "blur(8px)",
+              border: "1px solid rgba(251,146,60,0.4)",
+              borderRadius: 8,
+              padding: "3px 10px",
+              fontSize: 11,
+              fontWeight: 700,
+              color: "#fb923c",
+              letterSpacing: "0.05em",
+            }}>{video.duration}</div>
+            {/* Tag */}
+            <div style={{
+              position: "absolute", top: 12, left: 12,
+              background: "rgba(251,146,60,0.15)",
+              backdropFilter: "blur(8px)",
+              border: "1px solid rgba(251,146,60,0.3)",
+              borderRadius: 8,
+              padding: "3px 10px",
+              fontSize: 11,
+              fontWeight: 600,
+              color: "#fde68a",
+            }}>{video.tag}</div>
+            {/* Play button */}
+            <div onClick={() => setPlaying(true)} style={{
+              position: "absolute", inset: 0,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              opacity: hovered ? 1 : 0,
+              transition: "opacity 0.3s ease",
+            }}>
+              <div style={{
+                width: 64, height: 64, borderRadius: "50%",
+                background: "linear-gradient(135deg, #f97316, #eab308)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                boxShadow: "0 0 40px rgba(251,146,60,0.6)",
+                transform: hovered ? "scale(1)" : "scale(0.8)",
+                transition: "transform 0.3s ease",
+              }}>
+                <Play size={26} fill="white" color="white" style={{ marginLeft: 3 }} />
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+      {/* Info */}
+      <div style={{ padding: featured ? "20px 20px 16px" : "14px 16px 12px" }}>
+        <div style={{ fontSize: 11, color: "#fb923c", fontWeight: 700, letterSpacing: "0.1em", marginBottom: 6, textTransform: "uppercase" }}>
+          {video.genre}
+        </div>
+        <h3 style={{
+          fontSize: featured ? 15 : 13,
+          fontWeight: 600,
+          color: "#fafaf9",
+          lineHeight: 1.4,
+          marginBottom: 10,
+          display: "-webkit-box",
+          WebkitLineClamp: 2,
+          WebkitBoxOrient: "vertical",
+          overflow: "hidden",
+        }}>{video.title}</h3>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            <div style={{
+              width: 20, height: 20, borderRadius: "50%",
+              background: "linear-gradient(135deg, #f97316, #eab308)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+            }}>
+              <Headphones size={10} color="white" />
+            </div>
+            <span style={{ fontSize: 11, color: "#71717a" }}>SummerWaveSounds</span>
+          </div>
+          <div
+            onClick={() => setPlaying(true)}
+            style={{
+              fontSize: 11, color: "#fb923c", fontWeight: 600,
+              display: "flex", alignItems: "center", gap: 4, cursor: "pointer",
+            }}
+          >
+            <Youtube size={12} /> Watch
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-/* --- Navigation --- */
-.navbar {
-    padding: 20px 0;
-    background: var(--white);
-    border-bottom: 1px solid #eee;
+/* ── Navbar ────────────────────────────────────────────── */
+function Navbar({ mobileOpen, setMobileOpen }) {
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const h = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", h);
+    return () => window.removeEventListener("scroll", h);
+  }, []);
+
+  const links = ["About", "Mission", "Listen", "Support"];
+
+  return (
+    <nav style={{
+      position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
+      background: scrolled ? "rgba(10,10,10,0.92)" : "transparent",
+      backdropFilter: scrolled ? "blur(20px)" : "none",
+      borderBottom: scrolled ? "1px solid rgba(251,146,60,0.12)" : "none",
+      transition: "all 0.4s ease",
+    }}>
+      <div style={{
+        maxWidth: 1200, margin: "0 auto",
+        padding: "0 24px",
+        height: 68,
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+      }}>
+        {/* Logo */}
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div style={{
+            width: 36, height: 36, borderRadius: 10,
+            background: "linear-gradient(135deg, #f97316, #eab308)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            boxShadow: "0 0 16px rgba(249,115,22,0.4)",
+          }}>
+            <Headphones size={18} color="white" />
+          </div>
+          <div>
+            <div style={{ fontSize: 14, fontWeight: 800, color: "#fafaf9", letterSpacing: "-0.01em", lineHeight: 1 }}>SummerWave</div>
+            <div style={{ fontSize: 10, color: "#fb923c", letterSpacing: "0.15em", fontWeight: 600 }}>SOUNDS</div>
+          </div>
+        </div>
+
+        {/* Desktop links */}
+        <div style={{ display: "flex", gap: 32, alignItems: "center" }} className="hidden-mobile">
+          {links.map(l => (
+            <a key={l} href={`#${l.toLowerCase()}`} style={{
+              fontSize: 13, color: "#a1a1aa", fontWeight: 500,
+              textDecoration: "none", transition: "color 0.2s",
+            }}
+              onMouseEnter={e => e.target.style.color = "#fb923c"}
+              onMouseLeave={e => e.target.style.color = "#a1a1aa"}
+            >{l}</a>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <a href="https://youtube.com/@summerwavesounds" target="_blank" rel="noopener noreferrer"
+          style={{
+            display: "flex", alignItems: "center", gap: 8,
+            padding: "9px 18px", borderRadius: 12,
+            background: "linear-gradient(135deg, #f97316, #eab308)",
+            color: "white", fontSize: 13, fontWeight: 700,
+            textDecoration: "none",
+            boxShadow: "0 0 20px rgba(249,115,22,0.3)",
+            transition: "box-shadow 0.3s",
+          }}
+          onMouseEnter={e => e.currentTarget.style.boxShadow = "0 0 30px rgba(249,115,22,0.5)"}
+          onMouseLeave={e => e.currentTarget.style.boxShadow = "0 0 20px rgba(249,115,22,0.3)"}
+        >
+          <Youtube size={14} /> Subscribe
+        </a>
+      </div>
+    </nav>
+  );
 }
 
-.nav-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+/* ── Main App ──────────────────────────────────────────── */
+export default function App() {
+  const [activeGenre, setActiveGenre] = useState("All");
+  const [email, setEmail] = useState("");
+  const [joined, setJoined] = useState(false);
+  const [featuredPlaying, setFeaturedPlaying] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const filtered = activeGenre === "All"
+    ? VIDEOS
+    : VIDEOS.filter(v => v.genre === activeGenre);
+
+  return (
+    <div style={{
+      minHeight: "100vh",
+      background: "#0a0a0a",
+      color: "#fafaf9",
+      fontFamily: "'DM Sans', 'Inter', system-ui, sans-serif",
+    }}>
+      <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet" />
+
+      <style>{`
+        @keyframes pulse1 { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.15); opacity: 0.7; } }
+        @keyframes pulse2 { 0%,100% { transform: scale(1.1); opacity: 0.8; } 50% { transform: scale(0.9); opacity: 1; } }
+        @keyframes fadeUp { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes bar0 { from { height: 8px; } to { height: 34px; } }
+        @keyframes bar1 { from { height: 14px; } to { height: 28px; } }
+        @keyframes bar2 { from { height: 20px; } to { height: 40px; } }
+        @keyframes bar3 { from { height: 10px; } to { height: 32px; } }
+        @keyframes glow { 0%,100% { text-shadow: 0 0 20px rgba(251,146,60,0.5); } 50% { text-shadow: 0 0 40px rgba(251,146,60,0.9), 0 0 80px rgba(234,179,8,0.4); } }
+        @keyframes scrollIn { from { opacity:0; transform:translateX(-20px); } to { opacity:1; transform:translateX(0); } }
+        .fade-1 { animation: fadeUp 0.7s 0.1s ease-out both; }
+        .fade-2 { animation: fadeUp 0.7s 0.25s ease-out both; }
+        .fade-3 { animation: fadeUp 0.7s 0.4s ease-out both; }
+        .fade-4 { animation: fadeUp 0.7s 0.55s ease-out both; }
+        .glow-text { animation: glow 3s ease-in-out infinite; }
+        .genre-chip { transition: all 0.3s ease; cursor: pointer; }
+        .genre-chip:hover { border-color: rgba(251,146,60,0.5) !important; color: #fb923c !important; }
+        .social-btn { transition: all 0.25s ease; }
+        .social-btn:hover { transform: translateY(-3px); }
+        @media (max-width: 768px) { .hidden-mobile { display: none !important; } .grid-3 { grid-template-columns: 1fr !important; } .grid-2 { grid-template-columns: 1fr !important; } .hero-title { font-size: 52px !important; } .stats-row { flex-wrap: wrap; gap: 24px !important; } }
+      `}</style>
+
+      <Navbar mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
+
+      {/* ── HERO ──────────────────────────────────────────── */}
+      <section style={{ position: "relative", minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "120px 24px 80px" }}>
+        <HeroBackground />
+
+        <div style={{ position: "relative", zIndex: 10, maxWidth: 860, margin: "0 auto" }}>
+
+          {/* Eyebrow pill */}
+          <div className="fade-1" style={{
+            display: "inline-flex", alignItems: "center", gap: 8,
+            background: "rgba(249,115,22,0.12)",
+            border: "1px solid rgba(249,115,22,0.3)",
+            borderRadius: 9999, padding: "7px 18px",
+            marginBottom: 32, fontSize: 12, fontWeight: 700,
+            color: "#fb923c", letterSpacing: "0.12em", textTransform: "uppercase",
+          }}>
+            <Radio size={12} /> Feel-Good Music — EDM · Deep House · UK Garage
+          </div>
+
+          {/* Main title */}
+          <h1 className="fade-2 hero-title glow-text" style={{
+            fontSize: 96, fontWeight: 900, lineHeight: 0.95,
+            letterSpacing: "-0.03em", marginBottom: 24,
+            fontFamily: "'Bebas Neue', sans-serif",
+            background: "linear-gradient(135deg, #ffffff 0%, #fde68a 40%, #fb923c 70%, #f97316 100%)",
+            WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
+          }}>
+            FEEL THE<br />
+            <span style={{
+              background: "linear-gradient(135deg, #fb923c 0%, #eab308 50%, #fde68a 100%)",
+              WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
+            }}>GOOD VIBES</span>
+          </h1>
+
+          <p className="fade-3" style={{
+            fontSize: 18, color: "#a1a1aa", lineHeight: 1.7,
+            maxWidth: 560, margin: "0 auto 40px", fontWeight: 400,
+          }}>
+            Bespoke feel-good soundtracks that evolve with the city lights.{" "}
+            <span style={{ color: "#fb923c", fontWeight: 600 }}>100% of revenue</span>{" "}
+            supporting youth sports and global food banks worldwide.
+          </p>
+
+          {/* Sound bars */}
+          <div className="fade-3" style={{ display: "flex", justifyContent: "center", marginBottom: 36 }}>
+            <SoundBars active={true} count={32} color="#fb923c" />
+          </div>
+
+          {/* CTAs */}
+          <div className="fade-4" style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap", marginBottom: 64 }}>
+            <a href="#listen" style={{
+              display: "inline-flex", alignItems: "center", gap: 10,
+              padding: "15px 32px", borderRadius: 14,
+              background: "linear-gradient(135deg, #f97316, #eab308)",
+              color: "white", fontSize: 15, fontWeight: 700, textDecoration: "none",
+              boxShadow: "0 0 40px rgba(249,115,22,0.35)",
+              transition: "box-shadow 0.3s",
+            }}
+              onMouseEnter={e => e.currentTarget.style.boxShadow = "0 0 60px rgba(249,115,22,0.55)"}
+              onMouseLeave={e => e.currentTarget.style.boxShadow = "0 0 40px rgba(249,115,22,0.35)"}
+            >
+              <Play size={16} fill="white" /> Listen Now
+            </a>
+            <a href="https://youtube.com/@summerwavesounds" target="_blank" rel="noopener noreferrer"
+              style={{
+                display: "inline-flex", alignItems: "center", gap: 10,
+                padding: "15px 32px", borderRadius: 14,
+                background: "rgba(255,255,255,0.05)",
+                border: "1px solid rgba(251,146,60,0.25)",
+                color: "#fde68a", fontSize: 15, fontWeight: 600, textDecoration: "none",
+                backdropFilter: "blur(10px)",
+                transition: "all 0.3s",
+              }}
+              onMouseEnter={e => { e.currentTarget.style.background = "rgba(251,146,60,0.1)"; e.currentTarget.style.borderColor = "rgba(251,146,60,0.5)"; }}
+              onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.05)"; e.currentTarget.style.borderColor = "rgba(251,146,60,0.25)"; }}
+            >
+              <Youtube size={16} /> Subscribe Free
+            </a>
+          </div>
+
+          {/* Stats */}
+          <div className="fade-4 stats-row" style={{ display: "flex", justifyContent: "center", gap: 48, flexWrap: "wrap" }}>
+            {STATS.map(s => (
+              <div key={s.label} style={{ textAlign: "center" }}>
+                <div style={{
+                  fontFamily: "'Bebas Neue', sans-serif",
+                  fontSize: 36, lineHeight: 1,
+                  background: "linear-gradient(135deg, #fb923c, #eab308)",
+                  WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
+                }}>{s.val}</div>
+                <div style={{ fontSize: 11, color: "#52525b", letterSpacing: "0.1em", textTransform: "uppercase", marginTop: 4 }}>{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Scroll hint */}
+        <div style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: 8, opacity: 0.4 }}>
+          <ChevronDown size={16} color="#fb923c" style={{ animation: "pulse1 2s infinite" }} />
+        </div>
+      </section>
+
+      {/* ── FEATURED VIDEO ────────────────────────────────── */}
+      <section id="listen" style={{ padding: "80px 24px", background: "linear-gradient(180deg, #0a0a0a, #100800 50%, #0a0a0a)" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 48 }}>
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: 8,
+              background: "rgba(249,115,22,0.1)", border: "1px solid rgba(249,115,22,0.25)",
+              borderRadius: 9999, padding: "6px 16px", marginBottom: 16,
+              fontSize: 11, fontWeight: 700, color: "#fb923c", letterSpacing: "0.1em", textTransform: "uppercase",
+            }}>
+              <Zap size={11} /> Now Playing
+            </div>
+            <h2 style={{
+              fontFamily: "'Bebas Neue', sans-serif",
+              fontSize: 52, fontWeight: 900, letterSpacing: "-0.01em",
+              background: "linear-gradient(135deg, #fff, #fb923c)",
+              WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
+              marginBottom: 12,
+            }}>Latest Drop</h2>
+            <p style={{ color: "#71717a", fontSize: 15, maxWidth: 480, margin: "0 auto" }}>
+              Fresh from the channel — feel-good city vibes, no ads, just pure energy.
+            </p>
+          </div>
+
+          {/* Featured embed */}
+          <div style={{
+            borderRadius: 24, overflow: "hidden",
+            border: "1px solid rgba(251,146,60,0.2)",
+            boxShadow: "0 0 80px rgba(249,115,22,0.12)",
+            maxWidth: 800, margin: "0 auto 24px",
+            background: "#111",
+          }}>
+            <div style={{ position: "relative", paddingBottom: "56.25%" }}>
+              <iframe
+                src="https://www.youtube.com/embed/GnmG5FX2M2E?rel=0&modestbranding=1"
+                title="SummerWaveSounds – Feel Good City Vibes"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: "none" }}
+              />
+            </div>
+          </div>
+
+          <div style={{ textAlign: "center" }}>
+            <a href="https://youtube.com/@summerwavesounds" target="_blank" rel="noopener noreferrer"
+              style={{
+                display: "inline-flex", alignItems: "center", gap: 8,
+                color: "#fb923c", fontSize: 13, fontWeight: 600,
+                textDecoration: "none", transition: "color 0.2s",
+              }}
+              onMouseEnter={e => e.currentTarget.style.color = "#fde68a"}
+              onMouseLeave={e => e.currentTarget.style.color = "#fb923c"}
+            >
+              View full channel on YouTube <ArrowRight size={14} />
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ── VIDEO GRID ────────────────────────────────────── */}
+      <section style={{ padding: "80px 24px" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 40 }}>
+            <h2 style={{
+              fontFamily: "'Bebas Neue', sans-serif",
+              fontSize: 48, letterSpacing: "-0.01em",
+              background: "linear-gradient(135deg, #fff, #fb923c)",
+              WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
+              marginBottom: 8,
+            }}>All Mixes</h2>
+            <p style={{ color: "#71717a", fontSize: 14 }}>Click any mix to play it right here</p>
+          </div>
+
+          {/* Genre filters */}
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "center", marginBottom: 40 }}>
+            {GENRES.map(g => (
+              <button key={g} onClick={() => setActiveGenre(g)} className="genre-chip"
+                style={{
+                  padding: "8px 18px", borderRadius: 9999, fontSize: 12, fontWeight: 600,
+                  background: activeGenre === g ? "linear-gradient(135deg, #f97316, #eab308)" : "rgba(255,255,255,0.04)",
+                  border: `1px solid ${activeGenre === g ? "transparent" : "rgba(255,255,255,0.08)"}`,
+                  color: activeGenre === g ? "white" : "#71717a",
+                  cursor: "pointer",
+                  boxShadow: activeGenre === g ? "0 0 20px rgba(249,115,22,0.35)" : "none",
+                  transition: "all 0.3s ease",
+                }}>
+                {g}
+              </button>
+            ))}
+          </div>
+
+          {/* Grid */}
+          <div className="grid-3" style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: 20,
+          }}>
+            {filtered.map(v => <VideoCard key={v.id} video={v} />)}
+          </div>
+
+          {filtered.length === 0 && (
+            <div style={{ textAlign: "center", padding: "60px 0", color: "#52525b" }}>
+              <Music2 size={32} style={{ marginBottom: 12, opacity: 0.4 }} />
+              <p>More {activeGenre} mixes coming soon — subscribe to be first!</p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ── ABOUT ─────────────────────────────────────────── */}
+      <section id="about" style={{ padding: "80px 24px", background: "linear-gradient(180deg, transparent, rgba(16,8,0,0.6), transparent)" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <div className="grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center" }}>
+            <div>
+              <div style={{
+                display: "inline-flex", alignItems: "center", gap: 8,
+                background: "rgba(249,115,22,0.1)", border: "1px solid rgba(249,115,22,0.25)",
+                borderRadius: 9999, padding: "6px 16px", marginBottom: 24,
+                fontSize: 11, fontWeight: 700, color: "#fb923c", letterSpacing: "0.1em", textTransform: "uppercase",
+              }}>
+                <Sparkles size={11} /> About the Channel
+              </div>
+              <h2 style={{
+                fontFamily: "'Bebas Neue', sans-serif",
+                fontSize: 52, lineHeight: 0.95, letterSpacing: "-0.01em", marginBottom: 24,
+                background: "linear-gradient(135deg, #fff 0%, #fde68a 50%, #fb923c 100%)",
+                WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
+              }}>
+                A Signature<br />Sound for<br />Modern Life
+              </h2>
+              <p style={{ color: "#a1a1aa", lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>
+                SummerWaveSounds crafts bespoke soundtracks that integrate the energy of the city with a soulful, feel-good vibe — curated for every good-vibe moment.
+              </p>
+              <p style={{ color: "#71717a", lineHeight: 1.8, fontSize: 14 }}>
+                Every mix is hand-picked for seamless flow and maximum good vibes — whether you're on a road trip, grinding at the desk, hosting a rooftop session, or winding down after a big night.
+              </p>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              {[
+                { icon: Headphones, title: "1-Hour Mixes, Zero Ads", desc: "Full uninterrupted sets — deep house, UK garage, feel-good EDM — built for immersive listening." },
+                { icon: Sun, title: "Good Vibes Only", desc: "Every track hand-picked for seamless energy, flow, and maximum feel-good impact." },
+                { icon: Globe, title: "Weekly New Drops", desc: "Fresh mixes every week. Subscribe and never miss a beat." },
+                { icon: TrendingUp, title: "City Energy, Soul Depth", desc: "Where city lights meet soulful beats — the signature SummerWave sound." },
+              ].map(({ icon: Icon, title, desc }) => (
+                <div key={title} style={{
+                  display: "flex", gap: 16, alignItems: "flex-start",
+                  padding: "16px 18px", borderRadius: 16,
+                  background: "rgba(255,255,255,0.03)",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                  transition: "all 0.3s",
+                }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(251,146,60,0.3)"; e.currentTarget.style.background = "rgba(249,115,22,0.05)"; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; e.currentTarget.style.background = "rgba(255,255,255,0.03)"; }}
+                >
+                  <div style={{
+                    width: 40, height: 40, borderRadius: 12, flexShrink: 0,
+                    background: "linear-gradient(135deg, rgba(249,115,22,0.2), rgba(234,179,8,0.15))",
+                    border: "1px solid rgba(249,115,22,0.25)",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                  }}>
+                    <Icon size={18} color="#fb923c" />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: "#fafaf9", marginBottom: 4 }}>{title}</div>
+                    <div style={{ fontSize: 12, color: "#71717a", lineHeight: 1.6 }}>{desc}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── MISSION ───────────────────────────────────────── */}
+      <section id="mission" style={{ padding: "80px 24px" }}>
+        <div style={{ maxWidth: 900, margin: "0 auto", textAlign: "center" }}>
+          <div style={{
+            display: "inline-flex", alignItems: "center", gap: 8,
+            background: "rgba(249,115,22,0.1)", border: "1px solid rgba(249,115,22,0.25)",
+            borderRadius: 9999, padding: "6px 16px", marginBottom: 24,
+            fontSize: 11, fontWeight: 700, color: "#fb923c", letterSpacing: "0.1em", textTransform: "uppercase",
+          }}>
+            <Heart size={11} fill="#fb923c" /> Our Mission
+          </div>
+
+          <h2 style={{
+            fontFamily: "'Bebas Neue', sans-serif",
+            fontSize: 60, lineHeight: 0.9, letterSpacing: "-0.01em", marginBottom: 24,
+            background: "linear-gradient(135deg, #fff, #fde68a, #fb923c)",
+            WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
+          }}>
+            Music With<br />a Purpose
+          </h2>
+
+          <p style={{ color: "#a1a1aa", fontSize: 17, lineHeight: 1.8, maxWidth: 640, margin: "0 auto 48px" }}>
+            <strong style={{ color: "#fde68a" }}>100% of revenue</strong> from SummerWaveSounds goes directly to supporting global communities — making a real difference in youth sports programs and food banks worldwide.
+          </p>
+
+          {/* Impact cards */}
+          <div className="grid-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 48 }}>
+            {[
+              {
+                icon: "🏈",
+                title: "Youth Sports",
+                desc: "Funding equipment, coaching, and access for young people in underserved communities to experience the life-changing power of sport.",
+                stat: "Communities Supported",
+              },
+              {
+                icon: "🍞",
+                title: "Global Food Banks",
+                desc: "Every stream, every view, every subscription helps put food on tables for families struggling with food insecurity worldwide.",
+                stat: "Meals Contributed",
+              },
+            ].map(card => (
+              <div key={card.title} style={{
+                padding: 32, borderRadius: 20,
+                background: "rgba(249,115,22,0.06)",
+                border: "1px solid rgba(249,115,22,0.18)",
+                textAlign: "left",
+                transition: "all 0.3s",
+              }}
+                onMouseEnter={e => { e.currentTarget.style.background = "rgba(249,115,22,0.1)"; e.currentTarget.style.borderColor = "rgba(249,115,22,0.35)"; }}
+                onMouseLeave={e => { e.currentTarget.style.background = "rgba(249,115,22,0.06)"; e.currentTarget.style.borderColor = "rgba(249,115,22,0.18)"; }}
+              >
+                <div style={{ fontSize: 40, marginBottom: 16 }}>{card.icon}</div>
+                <h3 style={{
+                  fontFamily: "'Bebas Neue', sans-serif",
+                  fontSize: 28, color: "#fafaf9", letterSpacing: "0.02em", marginBottom: 12,
+                }}>{card.title}</h3>
+                <p style={{ color: "#71717a", fontSize: 13, lineHeight: 1.7, marginBottom: 16 }}>{card.desc}</p>
+                <div style={{
+                  display: "inline-flex", alignItems: "center", gap: 6,
+                  fontSize: 11, color: "#fb923c", fontWeight: 700,
+                  background: "rgba(249,115,22,0.12)", borderRadius: 8, padding: "4px 12px",
+                }}>
+                  <Star size={10} fill="#fb923c" /> {card.stat}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <a href="https://youtube.com/@summerwavesounds" target="_blank" rel="noopener noreferrer"
+            style={{
+              display: "inline-flex", alignItems: "center", gap: 10,
+              padding: "15px 36px", borderRadius: 14,
+              background: "linear-gradient(135deg, #f97316, #eab308)",
+              color: "white", fontSize: 15, fontWeight: 700, textDecoration: "none",
+              boxShadow: "0 0 40px rgba(249,115,22,0.35)",
+            }}>
+            <Heart size={16} fill="white" /> Support by Subscribing
+          </a>
+        </div>
+      </section>
+
+      {/* ── NEWSLETTER / FOOTER ──────────────────────────── */}
+      <footer id="support" style={{
+        padding: "80px 24px 40px",
+        background: "linear-gradient(180deg, #0a0a0a, #0d0600)",
+        borderTop: "1px solid rgba(249,115,22,0.1)",
+      }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+
+          {/* Newsletter */}
+          <div style={{
+            textAlign: "center", marginBottom: 64,
+            padding: "48px 32px", borderRadius: 24,
+            background: "linear-gradient(135deg, rgba(249,115,22,0.08), rgba(234,179,8,0.05))",
+            border: "1px solid rgba(249,115,22,0.15)",
+          }}>
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: 8,
+              background: "rgba(249,115,22,0.1)", border: "1px solid rgba(249,115,22,0.25)",
+              borderRadius: 9999, padding: "6px 16px", marginBottom: 20,
+              fontSize: 11, fontWeight: 700, color: "#fb923c", letterSpacing: "0.1em", textTransform: "uppercase",
+            }}>
+              <Zap size={11} /> Join the Wave
+            </div>
+            <h3 style={{
+              fontFamily: "'Bebas Neue', sans-serif",
+              fontSize: 42, marginBottom: 12, letterSpacing: "-0.01em",
+              background: "linear-gradient(135deg, #fff, #fb923c)",
+              WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
+            }}>New mixes. Weekly drops. Good causes.</h3>
+            <p style={{ color: "#71717a", fontSize: 14, marginBottom: 28 }}>
+              Get notified first. No spam — just pure good vibes in your inbox.
+            </p>
+
+            {joined ? (
+              <div style={{
+                display: "inline-flex", alignItems: "center", gap: 10,
+                padding: "14px 28px", borderRadius: 14,
+                background: "rgba(249,115,22,0.15)", border: "1px solid rgba(249,115,22,0.3)",
+                color: "#fb923c", fontSize: 14, fontWeight: 600,
+              }}>
+                <Sparkles size={16} /> You're in! Welcome to the wave 🧡
+              </div>
+            ) : (
+              <form onSubmit={e => { e.preventDefault(); if (email) setJoined(true); }}
+                style={{ display: "flex", gap: 12, maxWidth: 440, margin: "0 auto", flexWrap: "wrap", justifyContent: "center" }}>
+                <input
+                  type="email" required value={email} onChange={e => setEmail(e.target.value)}
+                  placeholder="your@email.com"
+                  style={{
+                    flex: 1, minWidth: 200, padding: "13px 18px", borderRadius: 12, fontSize: 14,
+                    background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)",
+                    color: "#fafaf9", outline: "none",
+                  }}
+                  onFocus={e => e.target.style.borderColor = "rgba(251,146,60,0.5)"}
+                  onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.1)"}
+                />
+                <button type="submit" style={{
+                  padding: "13px 24px", borderRadius: 12, fontSize: 14, fontWeight: 700,
+                  background: "linear-gradient(135deg, #f97316, #eab308)",
+                  color: "white", border: "none", cursor: "pointer",
+                  boxShadow: "0 0 24px rgba(249,115,22,0.35)",
+                }}>
+                  Subscribe
+                </button>
+              </form>
+            )}
+          </div>
+
+          {/* Footer bottom */}
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 24 }}>
+            {/* Brand */}
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <div style={{
+                width: 40, height: 40, borderRadius: 12,
+                background: "linear-gradient(135deg, #f97316, #eab308)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                boxShadow: "0 0 16px rgba(249,115,22,0.35)",
+              }}>
+                <Headphones size={20} color="white" />
+              </div>
+              <div>
+                <div style={{ fontSize: 15, fontWeight: 800, color: "#fafaf9" }}>SummerWaveSounds</div>
+                <div style={{ fontSize: 11, color: "#52525b" }}>Feel-Good Music — EDM · Deep House · UK Garage</div>
+              </div>
+            </div>
+
+            {/* Social links */}
+            <div style={{ display: "flex", gap: 12 }}>
+              {[
+                { icon: Youtube, href: "https://youtube.com/@summerwavesounds", label: "YouTube" },
+                { icon: Instagram, href: "#", label: "Instagram" },
+                { icon: Twitter, href: "#", label: "Twitter" },
+                { icon: Music2, href: "#", label: "Spotify" },
+              ].map(({ icon: Icon, href, label }) => (
+                <a key={label} href={href} target="_blank" rel="noopener noreferrer" className="social-btn"
+                  title={label}
+                  style={{
+                    width: 40, height: 40, borderRadius: 10,
+                    background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    textDecoration: "none", transition: "all 0.25s",
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.background = "rgba(249,115,22,0.15)"; e.currentTarget.style.borderColor = "rgba(249,115,22,0.4)"; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.04)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)"; }}
+                >
+                  <Icon size={16} color="#71717a" />
+                </a>
+              ))}
+            </div>
+
+            <div style={{ fontSize: 12, color: "#3f3f46" }}>
+              © 2026 SummerWaveSounds · Made with{" "}
+              <Heart size={10} style={{ display: "inline", verticalAlign: "middle" }} fill="#f97316" color="#f97316" />{" "}
+              for good vibes & good causes
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
 }
-
-.brand {
-    font-family: var(--serif);
-    font-size: 1.2rem;
-    letter-spacing: 1px;
-}
-
-.gold-text { color: var(--gold); font-weight: bold; }
-
-.nav-links a {
-    text-decoration: none;
-    color: var(--charcoal);
-    margin-left: 25px;
-    font-size: 0.9rem;
-    font-weight: 400;
-}
-
-/* --- Hero Section --- */
-.hero-premium {
-    position: relative;
-    height: 600px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.hero-bg {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 1;
-}
-
-.hero-overlay {
-    position: relative;
-    z-index: 2;
-    background: rgba(0, 0, 0, 0.2); /* Soft darkening for text readability */
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.hero-content {
-    text-align: center;
-    color: var(--white);
-}
-
-.hero-content h1 {
-    font-family: var(--serif);
-    font-size: 4.5rem;
-    margin: 0;
-    font-weight: 400;
-}
-
-.hero-content p {
-    font-size: 1.2rem;
-    letter-spacing: 2px;
-    font-weight: 300;
-}
-
-/* --- Info Grid --- */
-.info-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    padding: 100px 40px;
-}
-
-.info-card h3 {
-    font-family: var(--serif);
-    font-size: 1.8rem;
-    margin-bottom: 15px;
-}
-
-.icon {
-    font-size: 2rem;
-    color: var(--gold);
-    margin-bottom: 10px;
-}
-
-/* --- Media Section --- */
-.media-section {
-    padding-bottom: 100px;
-}
-
-.media-flex {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: 40px;
-    align-items: center;
-}
-
-.video-container iframe {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    border-radius: 4px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-}
-
-.media-item {
-    margin-bottom: 30px;
-}
-
-.media-item h4 {
-    font-family: var(--serif);
-    margin: 5px 0;
-    font-size: 1.2rem;
-}
-
-/* --- Footer --- */
-footer {
-    background: #222;
-    color: #999;
-    text-align: center;
-    padding: 60px 0;
-    font-size: 0.8rem;
-}
-
-.footer-links { margin-bottom: 20px; }
-.footer-links a { color: #eee; }
