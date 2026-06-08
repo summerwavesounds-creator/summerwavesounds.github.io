@@ -30,6 +30,29 @@ const STATS = [
   { val: "100%", label: "To Good Causes" }
 ];
 
+// --- YouTube Playlist Section Test ---
+<section id="listen" style={{ padding: "80px 24px", background: "linear-gradient(180deg, #0a0a0a, #100800 50%, #0a0a0a)" }}>
+  <div style={{ maxWidth: 800, margin: "0 auto" }}>
+    <h2 style={{ fontFamily: "'Bebas Neue'", fontSize: 48, color: "#fff", textAlign: "center", marginBottom: 40 }}>
+      Summer Wave Playlist
+    </h2>
+    
+    <div style={{ borderRadius: 24, overflow: "hidden", border: "1px solid rgba(251,146,60,0.2)", background: "#111" }}>
+      <div style={{ position: "relative", paddingBottom: "56.25%" }}>
+        <iframe
+          // Replace 'YOUR_PLAYLIST_ID' with the actual ID from your URL
+          // The ID is the string after 'list=' in your link
+          src="https://www.youtube.com/embed?listType=playlist&list=PL9LAITeGWgi4gh00BrS_KNOuZb1bOghIG&rel=0&modestbranding=1"
+          title="Summer Wave Feel-Good Music Playlist"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: "none" }}
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
 // --- Custom TikTok SVG Icon ---
 function TikTokIcon({ className }) {
   return (
