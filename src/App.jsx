@@ -81,7 +81,8 @@ export default function App() {
   const mixesRef = useRef(null);
   const playerRef = useRef(null);
 
-  const radioOpts = { height: '0', width: '0', playerVars: { autoplay: 0, listType: 'playlist', list: 'PL9LAITeGWgi4gh00BrS_KNOuZb1bOghIG', controls: 0 } };
+  // UPDATED: Using the specific playlist ID you requested
+  const radioOpts = { height: '0', width: '0', playerVars: { autoplay: 0, listType: 'playlist', list: 'PL9LAITeGWgi5izmYjs5EXnizApn7qjyif', controls: 0 } };
 
   const toggleRadio = () => {
     if (!playerRef.current) return;
