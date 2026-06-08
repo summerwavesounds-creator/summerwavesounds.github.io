@@ -1,3 +1,4 @@
+
 import React from 'react';
 import ArtistSection from './ArtistSection'; // Import the new file
 
