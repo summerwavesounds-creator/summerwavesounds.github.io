@@ -112,6 +112,8 @@ export default function App() {
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
             <button onClick={() => mixesRef.current?.scrollIntoView({ behavior: "smooth" })} className="hover:text-zinc-100 transition-colors">Mixes</button>
             <a href="#about" className="hover:text-zinc-100 transition-colors">Our Story</a>
+            <a href="#philosophy" className="hover:text-zinc-100 transition-colors">Philosophy</a>
+            <a href="#livestreams" className="hover:text-zinc-100 transition-colors">Live Streams</a>
             <a href="#mission" className="hover:text-zinc-100 transition-colors">Our Mission</a>
           </nav>
           <a href="https://www.youtube.com/@summerwavesounds?sub_confirmation=1" target="_blank" rel="noopener noreferrer" className="hidden md:flex px-5 py-2 rounded-full bg-orange-500 text-zinc-950 font-semibold text-sm hover:bg-orange-400">Subscribe Free</a>
@@ -123,6 +125,8 @@ export default function App() {
         <div className="fixed inset-0 z-40 bg-[#0a0a0a] pt-24 px-6 flex flex-col gap-6 md:hidden">
           <button onClick={() => { setMobileMenuOpen(false); mixesRef.current?.scrollIntoView({ behavior: "smooth" }); }} className="text-left text-lg font-medium py-2 border-b border-zinc-900">Latest Mixes</button>
           <a href="#about" onClick={() => setMobileMenuOpen(false)} className="text-lg font-medium py-2 border-b border-zinc-900">Our Story</a>
+          <a href="#philosophy" onClick={() => setMobileMenuOpen(false)} className="text-lg font-medium py-2 border-b border-zinc-900">Philosophy</a>
+          <a href="#livestreams" onClick={() => setMobileMenuOpen(false)} className="text-lg font-medium py-2 border-b border-zinc-900">Live Streams</a>
           <a href="#mission" onClick={() => setMobileMenuOpen(false)} className="text-lg font-medium py-2 border-b border-zinc-900">Our Mission</a>
           <a href="https://www.youtube.com/@summerwavesounds?sub_confirmation=1" className="mt-4 w-full py-3 rounded-xl bg-orange-500 text-center text-zinc-950 font-bold">Subscribe on YouTube</a>
         </div>
@@ -166,6 +170,132 @@ export default function App() {
         <div className="max-w-4xl mx-auto px-6 text-center relative z-10"><div className="w-12 h-12 rounded-2xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-orange-400 mx-auto mb-6 shadow-inner"><Sparkles className="w-5 h-5" /></div><h2 className="text-3xl md:text-4xl font-black uppercase tracking-tight mb-6">Music with Pure Purpose</h2><p className="text-lg text-zinc-400 leading-relaxed max-w-3xl mx-auto font-normal">SummerWave Sounds was founded to unite dynamic electronic soundscapes with global humanitarian work. We construct seamless musical mixes meticulously engineered to keep you focused, energized, and inspired, whether you are studying, relaxing, or working out.</p></div>
       </section>
 
+      {/* ── PHILOSOPHY SECTION ── */}
+      <section id="philosophy" className="py-24 border-t border-zinc-900 relative overflow-hidden">
+        {/* subtle background glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-500/5 rounded-full blur-[120px] pointer-events-none" />
+        <div className="max-w-6xl mx-auto px-6 relative z-10">
+          <div className="flex flex-col lg:flex-row items-center gap-16">
+
+            {/* Profile photo */}
+            <div className="flex-shrink-0 flex flex-col items-center gap-5">
+              <div className="relative">
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-orange-500 to-yellow-500 blur-[18px] opacity-40" />
+                <img
+                  src="/Summerwave.jpg"
+                  alt="SummerWave Sounds — Creator"
+                  className="relative w-52 h-52 rounded-full object-cover border-2 border-orange-500/40 shadow-2xl shadow-orange-500/20"
+                />
+              </div>
+              <div className="text-center">
+                <div className="text-sm font-bold text-zinc-200 tracking-tight">SummerWave Sounds</div>
+                <div className="text-xs text-orange-400 font-medium tracking-widest uppercase mt-0.5">Creator & Curator</div>
+              </div>
+            </div>
+
+            {/* Text */}
+            <div className="flex-1 max-w-2xl">
+              <div className="text-xs font-bold tracking-widest text-orange-400 uppercase mb-3">Philosophy</div>
+              <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight mb-8 leading-none">
+                Music is the{" "}
+                <span className="bg-gradient-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent">
+                  Universal Language
+                </span>
+              </h2>
+              <div className="space-y-5 text-zinc-400 leading-relaxed text-base">
+                <p>
+                  Music doesn't ask where you're from, what language you speak, or what you believe. It simply arrives — and in an instant, everyone in the room feels the same thing. That shared feeling is what SummerWave Sounds is built on.
+                </p>
+                <p>
+                  I believe that giving back starts with connection. When a beat drops and a crowd lifts together, barriers disappear. That energy is real, and it carries responsibility. Every mix I create is an opportunity to do something meaningful with that power — to channel it into communities that need it most.
+                </p>
+                <p>
+                  Whether it's funding a child's first basketball jersey through a YMCA programme or helping fill a shelf at a local food bank, the premise is simple:{" "}
+                  <span className="text-orange-400 font-semibold">good music should create good in the world.</span>
+                </p>
+                <p>
+                  So turn it up. Vibe with us. And know that every stream is a small act of giving — a ripple sent outward through the universal language we all share.
+                </p>
+              </div>
+              <div className="mt-8 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs font-semibold tracking-widest uppercase">
+                <span>🎵</span> Feel Good · Give Back · Repeat
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── LIVE STREAM SCHEDULE SECTION ── */}
+      <section id="livestreams" className="py-24 border-t border-zinc-900 bg-zinc-950/30 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-yellow-500/5 rounded-full blur-[100px] pointer-events-none" />
+        <div className="max-w-5xl mx-auto px-6 relative z-10">
+          <div className="text-center mb-14">
+            <div className="text-xs font-bold tracking-widest text-orange-400 uppercase mb-2">Tune In Live</div>
+            <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight mb-4">Live Stream Schedule</h2>
+            <p className="text-zinc-400 max-w-xl mx-auto text-base leading-relaxed">
+              Join the live sessions on YouTube — real-time mixes, good vibes, and a community that shows up together. All streams are free and uninterrupted.
+            </p>
+          </div>
+
+          {/* Schedule grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10">
+            {[
+              { day: "Tuesday", time: "7:00 PM EST", name: "Feel-Good Tuesday Mix", genre: "EDM / Feel Good", tag: "☀️", live: false },
+              { day: "Thursday", time: "8:00 PM EST", name: "Night Drive Session", genre: "Chill EDM / Night Vibes", tag: "🌙", live: false },
+              { day: "Saturday", time: "6:00 PM EST", name: "Weekend Wave — Deep House Set", genre: "Deep House / UK Garage", tag: "🏖️", live: true },
+              { day: "Sunday", time: "4:00 PM EST", name: "Sunset Session", genre: "Chill / Sunset Vibes", tag: "🌅", live: false },
+            ].map((stream) => (
+              <div
+                key={stream.day}
+                className={`group relative bg-zinc-900/40 border rounded-2xl p-6 transition-all duration-300 hover:border-orange-500/30 hover:-translate-y-1 ${stream.live ? "border-orange-500/40 shadow-lg shadow-orange-500/10" : "border-zinc-800/80"}`}
+              >
+                {stream.live && (
+                  <div className="absolute top-4 right-4 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-500/15 border border-red-500/30 text-red-400 text-xs font-bold tracking-wider uppercase">
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse inline-block" />
+                    Live Now
+                  </div>
+                )}
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500/20 to-yellow-500/10 border border-orange-500/20 flex items-center justify-center text-xl flex-shrink-0">
+                    {stream.tag}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-baseline gap-2 mb-1 flex-wrap">
+                      <span className="text-sm font-bold text-orange-400">{stream.day}</span>
+                      <span className="text-xs text-zinc-500 font-mono">{stream.time}</span>
+                    </div>
+                    <h3 className="font-semibold text-zinc-100 group-hover:text-orange-400 transition-colors text-sm leading-snug mb-1">
+                      {stream.name}
+                    </h3>
+                    <div className="text-xs text-zinc-500">{stream.genre}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* CTA */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a
+              href="https://www.youtube.com/@summerwavesounds/streams"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-7 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-yellow-500 text-zinc-950 font-bold text-sm hover:opacity-90 transition-opacity flex items-center gap-2 shadow-lg shadow-orange-500/20"
+            >
+              <Youtube className="w-4 h-4" /> Watch Live on YouTube
+            </a>
+            <a
+              href="https://www.youtube.com/@summerwavesounds?sub_confirmation=1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-7 py-3 rounded-xl bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300 font-semibold text-sm transition-all flex items-center gap-2"
+            >
+              🔔 Get Notified
+            </a>
+          </div>
+        </div>
+      </section>
+
       <section id="mission" className="py-24 border-t border-zinc-900 max-w-7xl mx-auto px-6 relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-16"><div className="text-xs font-bold tracking-widest text-orange-400 uppercase mb-2">Our Commitments</div><h2 className="text-3xl md:text-5xl font-black uppercase tracking-tight">Where the Revenue Goes</h2></div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -194,3 +324,4 @@ export default function App() {
     </div>
   );
 }
+
